@@ -1,3 +1,9 @@
+import { Link } from "react-router-dom";
 export default function Welcome() {
-    return <div>Welcome</div>;
+    return (
+        <>
+            <Link to="/login-or-signup/login">login</Link>
+            <Link to="/login-or-signup/signup">signup</Link>
+        </>
+    );
 }
