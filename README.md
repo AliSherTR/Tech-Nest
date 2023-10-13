@@ -1,1 +1,1 @@
-# techNest-frontend
+# TechNest-frontend
