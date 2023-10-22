@@ -7,7 +7,7 @@ import {
 
 export default function SignUp() {
     return (
-        <form className="mx-auto max-w-[25%] w-2/5 flex flex-col gap-4 ">
+        <form className="mx-auto max-w-[1200px] w-full px-7  md:w-[30%]  flex flex-col gap-4">
             <input
                 type="text"
                 placeholder="Full Name"
