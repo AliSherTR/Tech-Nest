@@ -17,3 +17,7 @@
             rgba(33, 77, 96, 0.0322455) 108.63%
         );
 }
+
+.auth-input-box {
+    @apply px-1 py-2 border border-gray-200 font-medium text-base rounded-sm;
+}
