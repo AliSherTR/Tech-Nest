@@ -10,20 +10,19 @@ import { AuthContext } from "../context/authContext";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
 
-const signInUser = async (formData) => {
-    const res = await axios.post(
-        "http://localhost:8000/api/users/auth/login",
-        formData
-    );
-    return res.data;
-};
-
 export default function SignIn() {
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: "", password: "" });
 
-    const mutation = useMutation(signInUser, {
+    const mutation = useMutation({
+        mutationFn: async (formData) => {
+            const res = await axios.post(
+                "http://localhost:8000/api/users/auth/login",
+                formData
+            );
+            return res.data;
+        },
         onSuccess: (data) => {
             authContext.handleLogin(data);
             toast.success("Logged In");
