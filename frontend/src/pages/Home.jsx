@@ -1,3 +1,10 @@
+import Navbar from "../ui/Navbar";
+
 export default function Home() {
-    return <button>Logut</button>;
+    return (
+        <>
+            <Navbar></Navbar>
+            <main></main>
+        </>
+    );
 }

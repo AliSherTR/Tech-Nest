@@ -8,13 +8,14 @@ const authReducer = (state, action) => {
     switch (action.type) {
         case "SIGNUP":
             return { ...state, user: action.payload };
-
+        case "SIGNIN":
+            return { ...state, user: action.payload };
         default:
             return state;
     }
 };
 
-// creating a context
+// creating an auth context
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -24,8 +25,14 @@ export const AuthProvider = ({ children }) => {
         dispatch({ type: "SIGNUP", payload: userData });
     };
 
+    const handleLogin = (userData) => {
+        dispatch({ type: "SIGNIN", payload: userData });
+        const { token } = userData;
+        localStorage.setItem("token", token);
+    };
+
     return (
-        <AuthContext.Provider value={{ state, handleSignUp }}>
+        <AuthContext.Provider value={{ state, handleSignUp, handleLogin }}>
             {children}
         </AuthContext.Provider>
     );

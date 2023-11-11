@@ -8,6 +8,7 @@ import SignIn from "./pages/SignIn";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { AuthProvider } from "./context/authContext";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,14 @@ export default function App() {
                 <ReactQueryDevtools initialIsOpen={false} />
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<Home />} />
+                        <Route
+                            path="/"
+                            element={
+                                <ProtectedRoute>
+                                    <Home />
+                                </ProtectedRoute>
+                            }
+                        />
                         <Route path="/welcome" element={<Welcome />} />
                         <Route
                             path="/authentication"
