@@ -26,7 +26,8 @@ export default function SignIn() {
             <p className="self-center">
                 {`Don't`} have an account?{" "}
                 <Link to="/authentication/signup" className=" underline">
-                    Sign Up{" "}
+                    {" "}
+                    Sign Up
                 </Link>
             </p>
 
@@ -36,9 +37,15 @@ export default function SignIn() {
                 <hr className="border border-black w-1/2" />
             </div>
 
-            <GoogleLoginButton onClick={() => alert("Hello")} />
-            <MicrosoftLoginButton onClick={() => alert("Hello")} />
-            <AppleLoginButton />
+            <GoogleLoginButton
+                onClick={() => alert("Sorry its a work in progress")}
+            />
+            <MicrosoftLoginButton
+                onClick={() => alert("Sorry its a work in progress")}
+            />
+            <AppleLoginButton
+                onClick={() => alert("Sorry its a work in progress")}
+            />
         </form>
     );
 }
