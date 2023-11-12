@@ -43,3 +43,19 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
         res.status(404).json({ message: "incorrect email or password" });
     }
 });
+
+exports.getUser = asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const user = await User.findById(id);
+
+    if (!user) {
+        next(new ErrorController("No User Found!!", 404));
+        return;
+    }
+
+    res.status(200).json({
+        status: "success",
+        username: user.username,
+        email: user.email,
+    });
+});

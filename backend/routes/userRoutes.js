@@ -3,6 +3,7 @@ const userController = require("./../controllers/userController");
 // const authenticateToken = require("../middlewares/authMiddleware");
 const router = express.Router();
 
+router.route("/:id").get(userController.getUser);
 router.route("/auth/register").post(userController.registerUser);
 router.route("/auth/login").post(userController.loginUser);
 
