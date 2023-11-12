@@ -10,10 +10,6 @@ import { AuthContext } from "../context/authContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const signUpUser = async (formData) => {
-    await axios.post("http://localhost:8000/api/users/auth/register", formData);
-};
-
 export default function SignUp() {
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
@@ -23,7 +19,13 @@ export default function SignUp() {
         password: "",
     });
 
-    const mutation = useMutation(signUpUser, {
+    const mutation = useMutation({
+        mutationFn: async (formData) => {
+            await axios.post(
+                "http://localhost:8000/api/users/auth/register",
+                formData
+            );
+        },
         onSuccess: (data) => {
             authContext.handleSignUp(data);
             toast.success("successfully saved the user");

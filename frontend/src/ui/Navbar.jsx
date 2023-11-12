@@ -20,14 +20,17 @@ export default function Navbar() {
                 <li className="">Contact</li>
             </ul>
             <p className="text-xl font-semibold">
-                {username ? username : "Login"}
+                {username ? (
+                    <>
+                        <span className="mx-4">{username}</span>
+                        <button onClick={handleLogout} className=" font-thin">
+                            Logout
+                        </button>
+                    </>
+                ) : (
+                    "Login"
+                )}
             </p>
-            <button
-                className=" bg-red-500 text-white px-3 py-2  rounded-full "
-                onClick={handleLogout}
-            >
-                Logout
-            </button>
         </nav>
     );
 }
