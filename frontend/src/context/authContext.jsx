@@ -1,6 +1,6 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { Navigate } from "react-router-dom";
 
 const initialState = {
@@ -60,3 +60,8 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useAuth() {
+    return useContext(AuthContext);
+}

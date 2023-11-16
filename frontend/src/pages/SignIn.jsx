@@ -1,17 +1,17 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
     AppleLoginButton,
     GoogleLoginButton,
     MicrosoftLoginButton,
 } from "react-social-login-buttons";
-import { AuthContext } from "../context/authContext";
+import { useAuth } from "../context/authContext";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
 
 export default function SignIn() {
-    const authContext = useContext(AuthContext);
+    const { handleLogin } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -24,7 +24,7 @@ export default function SignIn() {
             return res.data;
         },
         onSuccess: (data) => {
-            authContext.handleLogin(data);
+            handleLogin(data);
             toast.success("Logged In");
             navigate("/");
         },
@@ -33,7 +33,7 @@ export default function SignIn() {
         },
     });
 
-    const handleLogIn = (e) => {
+    const handleFormSubmit = (e) => {
         e.preventDefault();
         mutation.mutate(formData);
         setFormData({ email: "", password: "" });
@@ -62,7 +62,7 @@ export default function SignIn() {
 
             <button
                 className="self-center px-5 py-2 w-48 bg-green-300 rounded-full text-center"
-                onClick={handleLogIn}
+                onClick={handleFormSubmit}
             >
                 Continue
             </button>

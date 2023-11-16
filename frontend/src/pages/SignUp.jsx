@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
     AppleLoginButton,
@@ -6,12 +6,12 @@ import {
     MicrosoftLoginButton,
 } from "react-social-login-buttons";
 import { useMutation } from "react-query";
-import { AuthContext } from "../context/authContext";
+import { useAuth } from "../context/authContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function SignUp() {
-    const authContext = useContext(AuthContext);
+    const { handleSignUp } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: "",
@@ -27,7 +27,7 @@ export default function SignUp() {
             );
         },
         onSuccess: (data) => {
-            authContext.handleSignUp(data);
+            handleSignUp(data);
             toast.success("successfully saved the user");
             navigate("/authentication/signin");
         },
@@ -36,7 +36,7 @@ export default function SignUp() {
         },
     });
 
-    const handleSignUp = (e) => {
+    const handleFormSubmit = (e) => {
         e.preventDefault();
         mutation.mutate(formData);
         setFormData({
@@ -78,7 +78,7 @@ export default function SignUp() {
 
             <button
                 className="self-center px-5 py-2 w-48 bg-green-300 rounded-full text-center"
-                onClick={handleSignUp}
+                onClick={handleFormSubmit}
             >
                 Continue
             </button>
