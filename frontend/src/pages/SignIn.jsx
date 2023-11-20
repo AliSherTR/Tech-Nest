@@ -3,17 +3,35 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
     AppleLoginButton,
-    GoogleLoginButton,
     MicrosoftLoginButton,
 } from "react-social-login-buttons";
 import { useAuth } from "../context/authContext";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 export default function SignIn() {
     const { handleLogin } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: "", password: "" });
+
+    const responseMessage = (response) => {
+        const { credential } = response;
+
+        const decodedCredentials = jwtDecode(credential);
+        console.log(decodedCredentials);
+        const user = {
+            email: decodedCredentials.email,
+            username: decodedCredentials.name,
+        };
+
+        handleLogin(user);
+        navigate("/");
+    };
+    const errorMessage = (error) => {
+        console.log(error);
+    };
 
     const mutation = useMutation({
         mutationFn: async (formData) => {
@@ -81,9 +99,7 @@ export default function SignIn() {
                 <hr className="border border-black w-1/2" />
             </div>
 
-            <GoogleLoginButton
-                onClick={() => alert("Sorry its a work in progress")}
-            />
+            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
             <MicrosoftLoginButton
                 onClick={() => alert("Sorry its a work in progress")}
             />
