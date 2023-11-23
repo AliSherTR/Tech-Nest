@@ -1,37 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-    AppleLoginButton,
-    MicrosoftLoginButton,
-} from "react-social-login-buttons";
+import { MicrosoftLoginButton } from "react-social-login-buttons";
 import { useAuth } from "../context/authContext";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
-import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
-
+import { useGoogleLogin } from "@react-oauth/google";
+import GoogleLogInButton from "../ui/GoogleButton";
 export default function SignIn() {
     const { handleLogin } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: "", password: "" });
-
-    const responseMessage = (response) => {
-        const { credential } = response;
-
-        const decodedCredentials = jwtDecode(credential);
-        console.log(decodedCredentials);
-        const user = {
-            email: decodedCredentials.email,
-            username: decodedCredentials.name,
-        };
-
-        handleLogin(user);
-        navigate("/");
-    };
-    const errorMessage = (error) => {
-        console.log(error);
-    };
 
     const mutation = useMutation({
         mutationFn: async (formData) => {
@@ -56,6 +35,29 @@ export default function SignIn() {
         mutation.mutate(formData);
         setFormData({ email: "", password: "" });
     };
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            const { access_token } = tokenResponse;
+            try {
+                const res = await axios.get(
+                    `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
+                );
+                const { name, email } = res.data;
+                const user = await axios.post(
+                    "http://localhost:8000/api/users/auth/google-login",
+                    {
+                        username: name,
+                        email,
+                        googleSignIn: true,
+                    }
+                );
+                handleLogin(user.data);
+                navigate("/");
+            } catch (error) {
+                toast.error("Erorr while signing in");
+            }
+        },
+    });
 
     return (
         <form className="mx-auto max-w-[1200px] w-full px-7  md:w-[30%]  flex flex-col gap-4">
@@ -98,12 +100,17 @@ export default function SignIn() {
                 <p>or</p>
                 <hr className="border border-black w-1/2" />
             </div>
-
-            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+            {/* 
+            <GoogleLogin
+                onSuccess={handleGoogleSignIn}
+                scope="profile email"
+                buttonText="signin_with"
+                useOneTap={false}
+                size="large"
+                width="400px"
+            /> */}
+            <GoogleLogInButton text="Login With Google" handler={googleLogin} />
             <MicrosoftLoginButton
-                onClick={() => alert("Sorry its a work in progress")}
-            />
-            <AppleLoginButton
                 onClick={() => alert("Sorry its a work in progress")}
             />
         </form>

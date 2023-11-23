@@ -19,5 +19,5 @@
 }
 
 .auth-input-box {
-    @apply px-1 py-2 border border-gray-200 font-medium text-base rounded-sm;
+    @apply px-1 py-2 border border-gray-200 font-medium text-base rounded-md;
 }

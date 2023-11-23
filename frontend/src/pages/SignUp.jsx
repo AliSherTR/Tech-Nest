@@ -1,22 +1,44 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-    AppleLoginButton,
-    GoogleLoginButton,
-    MicrosoftLoginButton,
-} from "react-social-login-buttons";
+import { MicrosoftLoginButton } from "react-social-login-buttons";
+import { useGoogleLogin } from "@react-oauth/google";
 import { useMutation } from "react-query";
 import { useAuth } from "../context/authContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import GoogleLogInButton from "../ui/GoogleButton";
 
 export default function SignUp() {
-    const { handleSignUp } = useAuth();
+    const { handleSignUp, handleLogin } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: "",
         email: "",
         password: "",
+    });
+
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            const { access_token } = tokenResponse;
+            try {
+                const res = await axios.get(
+                    `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
+                );
+                const { name, email } = res.data;
+                const user = await axios.post(
+                    "http://localhost:8000/api/users/auth/google-login",
+                    {
+                        username: name,
+                        email,
+                        googleSignIn: true,
+                    }
+                );
+                handleLogin(user.data);
+                navigate("/");
+            } catch (error) {
+                toast.error("Erorr while signing in");
+            }
+        },
     });
 
     const mutation = useMutation({
@@ -96,9 +118,11 @@ export default function SignUp() {
                 <hr className="border border-black w-1/2" />
             </div>
 
-            <GoogleLoginButton />
+            <GoogleLogInButton
+                text="Continue With Google"
+                handler={googleLogin}
+            />
             <MicrosoftLoginButton />
-            <AppleLoginButton />
         </form>
     );
 }

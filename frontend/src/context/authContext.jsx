@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem("token");
         if (!token) return;
         const decoded = jwtDecode(token);
+        console.log(decoded);
         try {
             const data = await axios.get(
                 `http://localhost:8000/api/users/${decoded.id}`

@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { AuthProvider } from "./context/authContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import GoogleSignin from "./ui/GoogleSignin";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,10 @@ export default function App() {
                         >
                             <Route path="signin" element={<SignIn />} />
                             <Route path="signup" element={<SignUp />} />
+                            <Route
+                                path="google-sigin"
+                                element={<GoogleSignin />}
+                            />
                         </Route>
                     </Routes>
                     <Toaster
