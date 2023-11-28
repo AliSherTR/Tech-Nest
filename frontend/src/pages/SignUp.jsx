@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MicrosoftLoginButton } from "react-social-login-buttons";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useMutation } from "react-query";
 import { useAuth } from "../context/authContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import MicrosoftLogin from "react-microsoft-login";
+
 import GoogleLogInButton from "../ui/GoogleButton";
 
 export default function SignUp() {
@@ -40,6 +41,15 @@ export default function SignUp() {
             }
         },
     });
+
+    const authHandler = async (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            const res = await data;
+            console.log(res);
+        }
+    };
 
     const mutation = useMutation({
         mutationFn: async (formData) => {
@@ -122,7 +132,16 @@ export default function SignUp() {
                 text="Continue With Google"
                 handler={googleLogin}
             />
-            <MicrosoftLoginButton />
+            <MicrosoftLogin
+                clientId={"1abd395d-13ef-4677-b18f-15e52a69edd7"}
+                authCallback={() => {
+                    authHandler();
+                }}
+                className=" w-full"
+                redirectUri="http://localhost:5173"
+                withUserData={true}
+                prompt="select_account"
+            />
         </form>
     );
 }

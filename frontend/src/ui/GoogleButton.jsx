@@ -6,7 +6,7 @@ export default function GoogleButton({ text, handler }) {
                 e.preventDefault();
                 handler();
             }}
-            className="border border-red-50 h-14 px-2 flex items-center justify-center shadow-lg"
+            className="border border-black h-14 px-2  flex items-center justify-center shadow-lg"
         >
             <img
                 src={googleLogo}

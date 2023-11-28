@@ -11,10 +11,15 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         next(new ErrorController("User Already Exists", 409));
         return;
     }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const newUser = new User({
         username,
         email,
-        password,
+        password: hashedPassword,
+        googleSignIn: true,
     });
 
     await newUser.save();
@@ -42,6 +47,31 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     } else {
         res.status(404).json({ message: "incorrect email or password" });
     }
+});
+
+exports.googleLogin = asyncHandler(async (req, res, next) => {
+    const { email, username } = req.body;
+
+    const user = await User.findOne({ email });
+    if (user) {
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "1h",
+        });
+        res.status(200).json({
+            username: user.username,
+            email: user.email,
+            token: token,
+        });
+
+        return;
+    }
+    const newUser = new User({
+        username,
+        email,
+    });
+
+    await newUser.save();
+    res.status(200).json({ username, email });
 });
 
 exports.getUser = asyncHandler(async (req, res, next) => {

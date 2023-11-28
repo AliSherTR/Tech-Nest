@@ -1,10 +1,13 @@
 const express = require("express");
 const userController = require("./../controllers/userController");
-// const authenticateToken = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-router.route("/:id").get(userController.getUser);
-router.route("/auth/register").post(userController.registerUser);
-router.route("/auth/login").post(userController.loginUser);
+// User registration route
+router.post("/auth/register", userController.registerUser);
+
+// User login route
+router.post("/auth/login", userController.loginUser);
+router.post("/auth/google-login", userController.googleLogin);
+router.get("/:id", userController.getUser);
 
 module.exports = router;
