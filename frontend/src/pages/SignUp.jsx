@@ -53,10 +53,15 @@ export default function SignUp() {
 
     const mutation = useMutation({
         mutationFn: async (formData) => {
-            await axios.post(
-                "http://localhost:8000/api/users/auth/register",
-                formData
-            );
+            try {
+                const res = await axios.post(
+                    "http://localhost:8000/api/users/auth/login",
+                    formData
+                );
+                return res.data;
+            } catch (error) {
+                throw error.response.data;
+            }
         },
         onSuccess: (data) => {
             handleSignUp(data);
@@ -64,7 +69,7 @@ export default function SignUp() {
             navigate("/authentication/signin");
         },
         onError: (err) => {
-            toast.error("An error occured during the sign up process", err);
+            toast.error(err.error.message);
         },
     });
 

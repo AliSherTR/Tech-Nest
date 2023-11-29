@@ -8,8 +8,9 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     const { email, username, password } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
-        next(new ErrorController("User Already Exists", 409));
-        return;
+        const error = new Error("User Already Exists");
+        error.statusCode = 409;
+        throw error;
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -19,7 +20,6 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         username,
         email,
         password: hashedPassword,
-        googleSignIn: true,
     });
 
     await newUser.save();
@@ -30,8 +30,9 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-        next(new ErrorController("No User Found", 404));
-        return;
+        const error = new Error("No User Found");
+        error.statusCode = 404;
+        throw error;
     }
 
     const comparePassword = await bcrypt.compare(password, user.password);
@@ -68,6 +69,7 @@ exports.googleLogin = asyncHandler(async (req, res, next) => {
     const newUser = new User({
         username,
         email,
+        googleSignIn: true,
     });
 
     await newUser.save();

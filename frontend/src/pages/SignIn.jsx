@@ -14,19 +14,24 @@ export default function SignIn() {
 
     const mutation = useMutation({
         mutationFn: async (formData) => {
-            const res = await axios.post(
-                "http://localhost:8000/api/users/auth/login",
-                formData
-            );
-            return res.data;
+            try {
+                const res = await axios.post(
+                    "http://localhost:8000/api/users/auth/login",
+                    formData
+                );
+                return res.data;
+            } catch (error) {
+                throw error.response.data;
+            }
         },
         onSuccess: (data) => {
             handleLogin(data);
             toast.success("Logged In");
             navigate("/");
         },
-        onError: (err) => {
-            toast.error("An error occured during the process", err);
+        onError: (error) => {
+            const errorMessage = error.error.message || "An error occurred";
+            toast.error(errorMessage);
         },
     });
 
