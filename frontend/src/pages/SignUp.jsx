@@ -1,22 +1,18 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useMutation } from "react-query";
+import { useForm } from "react-hook-form";
 import { useAuth } from "../context/authContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 import MicrosoftLogin from "react-microsoft-login";
 
 import GoogleLogInButton from "../ui/GoogleButton";
+import FormError from "../ui/FormError";
 
 export default function SignUp() {
     const { handleSignUp, handleLogin } = useAuth();
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        username: "",
-        email: "",
-        password: "",
-    });
 
     const googleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
@@ -51,11 +47,18 @@ export default function SignUp() {
         }
     };
 
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm();
+
     const mutation = useMutation({
         mutationFn: async (formData) => {
             try {
                 const res = await axios.post(
-                    "http://localhost:8000/api/users/auth/login",
+                    "http://localhost:8000/api/users/auth/register",
                     formData
                 );
                 return res.data;
@@ -73,49 +76,78 @@ export default function SignUp() {
         },
     });
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        mutation.mutate(formData);
-        setFormData({
-            username: "",
-            email: "",
-            password: "",
-        });
+    const handleFormSubmit = (data) => {
+        mutation.mutate(data);
+        reset();
     };
 
     return (
-        <form className="mx-auto max-w-[1200px] w-full px-7  md:w-[30%]  flex flex-col gap-4">
+        <form
+            className="mx-auto max-w-[1200px] w-full px-7  md:w-[30%]  flex flex-col gap-4"
+            onSubmit={handleSubmit(handleFormSubmit)}
+        >
             <input
                 type="text"
                 placeholder="Full Name"
                 className="auth-input-box"
-                value={formData.username}
-                onChange={(e) =>
-                    setFormData({ ...formData, username: e.target.value })
-                }
+                {...register("username", {
+                    required: "User name is required",
+                    maxLength: {
+                        value: 20,
+                        message: "User Name should not exceed 20 characters",
+                    },
+                    pattern: {
+                        value: /^[A-Za-z\s]+$/,
+                        message:
+                            "User Name should only contain letters and spaces",
+                    },
+                })}
+            />
+            <FormError
+                errorMessage={errors?.username?.message}
+                additionalClass="mt-[-13px]"
             />
             <input
                 type="email"
                 placeholder="Email"
                 className="auth-input-box"
-                value={formData.email}
-                onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                }
+                {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Invalid email",
+                    },
+                })}
+            />
+            <FormError
+                errorMessage={errors?.email?.message}
+                additionalClass="mt-[-13px]"
             />
             <input
                 type="password"
                 placeholder="Password"
                 className="auth-input-box"
-                value={formData.password}
-                onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                }
+                {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                        value: 8,
+                        message:
+                            "Password length should be atleast 8 characters",
+                    },
+                    pattern: {
+                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+                        message:
+                            "Password must contain at least one lowercase letter, one uppercase letter, and one digit.",
+                    },
+                })}
             />
-
+            <FormError
+                errorMessage={errors?.password?.message}
+                additionalClass="mt-[-13px]"
+            />
             <button
+                type="submit"
                 className="self-center px-5 py-2 w-48 bg-green-300 rounded-full text-center"
-                onClick={handleFormSubmit}
             >
                 Continue
             </button>
@@ -138,7 +170,6 @@ export default function SignUp() {
                 handler={googleLogin}
             />
             <MicrosoftLogin
-                clientId={"1abd395d-13ef-4677-b18f-15e52a69edd7"}
                 authCallback={() => {
                     authHandler();
                 }}

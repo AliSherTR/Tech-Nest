@@ -35,11 +35,6 @@ export default function SignIn() {
         },
     });
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        mutation.mutate(formData);
-        setFormData({ email: "", password: "" });
-    };
     const googleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             const { access_token } = tokenResponse;
@@ -63,6 +58,12 @@ export default function SignIn() {
             }
         },
     });
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        mutation.mutate(formData);
+        setFormData({ email: "", password: "" });
+    };
 
     return (
         <form className="mx-auto max-w-[1200px] w-full px-7  md:w-[30%]  flex flex-col gap-4">
@@ -105,15 +106,6 @@ export default function SignIn() {
                 <p>or</p>
                 <hr className="border border-black w-1/2" />
             </div>
-            {/* 
-            <GoogleLogin
-                onSuccess={handleGoogleSignIn}
-                scope="profile email"
-                buttonText="signin_with"
-                useOneTap={false}
-                size="large"
-                width="400px"
-            /> */}
             <GoogleLogInButton text="Login With Google" handler={googleLogin} />
             <MicrosoftLoginButton
                 onClick={() => alert("Sorry its a work in progress")}
