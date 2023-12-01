@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MicrosoftLoginButton } from "react-social-login-buttons";
 import { useAuth } from "../context/authContext";
@@ -7,10 +6,18 @@ import { useMutation } from "react-query";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import GoogleLogInButton from "../ui/GoogleButton";
+import { useForm } from "react-hook-form";
+import FormError from "../ui/FormError";
 export default function SignIn() {
     const { handleLogin } = useAuth();
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ email: "", password: "" });
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm();
 
     const mutation = useMutation({
         mutationFn: async (formData) => {
@@ -59,36 +66,47 @@ export default function SignIn() {
         },
     });
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        mutation.mutate(formData);
-        setFormData({ email: "", password: "" });
+    const handleFormSubmit = (data) => {
+        mutation.mutate(data);
+        reset();
     };
 
     return (
-        <form className="mx-auto max-w-[1200px] w-full px-7  md:w-[30%]  flex flex-col gap-4">
+        <form
+            className="mx-auto max-w-[1200px] w-full px-7  md:w-[30%]  flex flex-col gap-4"
+            onSubmit={handleSubmit(handleFormSubmit)}
+        >
             <input
                 type="email"
                 placeholder="Email"
                 className="auth-input-box"
-                value={formData.email}
-                onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                }
+                {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Invalid email",
+                    },
+                })}
+            />
+            <FormError
+                errorMessage={errors?.email?.message}
+                additionalClass="mt-[-13px]"
             />
             <input
                 type="password"
                 placeholder="Password"
                 className="auth-input-box"
-                value={formData.password}
-                onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                }
+                {...register("password", {
+                    required: "Password is required",
+                })}
             />
-
+            <FormError
+                errorMessage={errors?.password?.message}
+                additionalClass="mt-[-13px]"
+            />
             <button
                 className="self-center px-5 py-2 w-48 bg-green-300 rounded-full text-center"
-                onClick={handleFormSubmit}
+                type="submit"
             >
                 Continue
             </button>
