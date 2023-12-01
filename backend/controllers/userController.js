@@ -26,7 +26,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     res.status(200).json({ username, email });
 });
 
-exports.loginUser = asyncHandler(async (req, res, next) => {
+exports.loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
@@ -45,9 +45,13 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
             email: user.email,
             token: token,
         });
-    } else {
-        res.status(404).json({ message: "incorrect email or password" });
+
+        return;
     }
+
+    const error = new Error("Incorrect Email or password");
+    error.statusCode = 404;
+    throw error;
 });
 
 exports.googleLogin = asyncHandler(async (req, res, next) => {
