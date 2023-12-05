@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/authContext";
 import axios from "axios";
 import toast from "react-hot-toast";
-import MicrosoftLogin from "react-microsoft-login";
-
 import GoogleLogInButton from "../ui/GoogleButton";
 import FormError from "../ui/FormError";
 
@@ -38,14 +36,16 @@ export default function SignUp() {
         },
     });
 
-    const authHandler = async (err, data) => {
-        if (err) {
-            console.error(err);
-        } else {
-            const res = await data;
-            console.log(res);
+    async function handleMicrosoft() {
+        try {
+            const response = await axios.get(
+                "http://localhost:8000/api/users/auth/microsoft"
+            );
+            console.log(response);
+        } catch (error) {
+            console.log(error.message);
         }
-    };
+    }
 
     const {
         register,
@@ -169,15 +169,18 @@ export default function SignUp() {
                 text="Continue With Google"
                 handler={googleLogin}
             />
-            <MicrosoftLogin
-                authCallback={() => {
-                    authHandler();
+            <button
+                onClick={(e) => {
+                    e.preventDefault();
+                    handleMicrosoft();
                 }}
-                className=" w-full"
-                redirectUri="http://localhost:5173"
-                withUserData={true}
-                prompt="select_account"
-            />
+            >
+                Continue with microsoft
+            </button>
         </form>
     );
 }
+
+// const response = await axios.get(
+//     "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=1abd395d-13ef-4677-b18f-15e52a69edd7&response_type=code&redirect_uri=http://localhost:5173/authentication/signin&response_mode=query&scope=offline_access%20user.read%20mail.read"
+// );

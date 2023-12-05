@@ -21,3 +21,13 @@
 .auth-input-box {
     @apply px-1 py-2 border border-gray-200 font-medium text-base rounded-md;
 }
+.active {
+    @apply bg-lime-500 rounded-md;
+}
+.admin-search-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    left: 14px;
+}

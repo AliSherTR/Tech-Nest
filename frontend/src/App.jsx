@@ -10,6 +10,10 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { AuthProvider } from "./context/authContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import GoogleSignin from "./ui/GoogleSignin";
+import AdminLayout from "./ui/AdminLayout";
+import Dashboard from "./pages/admin/Dashboard";
+import Users from "./pages/admin/Users";
+import Products from "./pages/admin/Products";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +21,7 @@ export default function App() {
     return (
         <AuthProvider>
             <QueryClientProvider client={queryClient}>
-                <ReactQueryDevtools initialIsOpen={false} />
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
                 <BrowserRouter>
                     <Routes>
                         <Route
@@ -39,6 +43,11 @@ export default function App() {
                                 path="google-sigin"
                                 element={<GoogleSignin />}
                             />
+                        </Route>
+                        <Route path="/admin" element={<AdminLayout />}>
+                            <Route path="dashboard" element={<Dashboard />} />
+                            <Route path="users" element={<Users />} />
+                            <Route path="products" element={<Products />} />
                         </Route>
                     </Routes>
                     <Toaster
