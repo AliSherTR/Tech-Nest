@@ -15,13 +15,20 @@ import Dashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users";
 import Products from "./pages/admin/Products";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 60 * 1000,
+            // staleTime: 0,
+        },
+    },
+});
 
 export default function App() {
     return (
         <AuthProvider>
             <QueryClientProvider client={queryClient}>
-                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+                <ReactQueryDevtools initialIsOpen={false} />
                 <BrowserRouter>
                     <Routes>
                         <Route

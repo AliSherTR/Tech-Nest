@@ -11,7 +11,7 @@ import {
 } from "react-icons/hi2";
 
 export default function AdminLayout() {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     return (
         <div className="grid grid-cols-12 grid-rows-12 h-screen">
             <nav
