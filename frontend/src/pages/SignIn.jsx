@@ -1,6 +1,5 @@
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { MicrosoftLoginButton } from "react-social-login-buttons";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
@@ -125,9 +124,6 @@ export default function SignIn() {
                 <hr className="border border-black w-1/2" />
             </div>
             <GoogleLogInButton text="Login With Google" handler={googleLogin} />
-            <MicrosoftLoginButton
-                onClick={() => alert("Sorry its a work in progress")}
-            />
         </form>
     );
 }

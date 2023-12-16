@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import AdminTableRow from "../../ui/AdminTableRow";
 import { getAllUsers } from "../../utils/helpers";
 import toast from "react-hot-toast";
+import AdminAddBtn from "../../ui/AdminAddBtn";
 
 export default function Users() {
     const { isLoading, data } = useQuery({
@@ -16,7 +17,7 @@ export default function Users() {
 
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex justify-between w-full min-w-full p-3 bg-white gap-3 mt-4 rounded-xl">
+            <div className="flex justify-between w-full min-w-full p-3 bg-white gap-3 mt-4 rounded-xl text-center">
                 <h5 className="font-bold font-sans">Image</h5>
                 <h5 className="flex-1 font-bold font-sans">Name</h5>
                 <h5 className="flex-1 font-bold font-sans">Email</h5>
@@ -24,7 +25,7 @@ export default function Users() {
                 <h5 className="flex-1 font-bold font-sans">Delete Or Update</h5>
             </div>
 
-            {data.map((user) => (
+            {data?.map((user) => (
                 <AdminTableRow
                     key={user._id} // Add a unique key for each element in the map
                     name={user?.username}
@@ -35,9 +36,12 @@ export default function Users() {
                 />
             ))}
 
-            <button className="self-end px-2 py-1 bg-green-400 text-white text-base rounded-lg">
-                Add User
-            </button>
+            <div className="self-end">
+                <AdminAddBtn
+                    text={"Add User"}
+                    onclick={() => alert("Add Product")}
+                />
+            </div>
         </div>
     );
 }
