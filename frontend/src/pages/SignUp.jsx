@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/authContext";
 import axios from "axios";
 import toast from "react-hot-toast";
-import MicrosoftLogin from "react-microsoft-login";
-
 import GoogleLogInButton from "../ui/GoogleButton";
 import FormError from "../ui/FormError";
 
@@ -37,15 +35,6 @@ export default function SignUp() {
             }
         },
     });
-
-    const authHandler = async (err, data) => {
-        if (err) {
-            console.error(err);
-        } else {
-            const res = await data;
-            console.log(res);
-        }
-    };
 
     const {
         register,
@@ -168,15 +157,6 @@ export default function SignUp() {
             <GoogleLogInButton
                 text="Continue With Google"
                 handler={googleLogin}
-            />
-            <MicrosoftLogin
-                authCallback={() => {
-                    authHandler();
-                }}
-                className=" w-full"
-                redirectUri="http://localhost:5173"
-                withUserData={true}
-                prompt="select_account"
             />
         </form>
     );

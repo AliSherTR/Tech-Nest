@@ -6,6 +6,9 @@ export default {
             fontFamily: {
                 montserrat: ["Montserrat", "sans-serif"],
             },
+            gridTemplateRows: {
+                12: "repeat(12, minmax(0, 1fr))", // Specify the size or use 'minmax(0, 1fr)' for equal height rows
+            },
         },
     },
     plugins: [],

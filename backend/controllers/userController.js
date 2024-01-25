@@ -1,8 +1,21 @@
 const User = require("./../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const ErrorController = require("./errorController");
 const asyncHandler = require("express-async-handler");
+
+exports.getAllUsers = asyncHandler(async (req, res, next) => {
+    const users = await User.find();
+    if (users) {
+        res.status(200).json({
+            users,
+        });
+        return;
+    }
+
+    const error = new Error("No Users Found");
+    error.statusCode = 404;
+    throw error;
+});
 
 exports.registerUser = asyncHandler(async (req, res, next) => {
     const { email, username, password } = req.body;
