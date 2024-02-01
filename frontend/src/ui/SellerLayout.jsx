@@ -10,7 +10,7 @@ import {
     HiOutlineArrowLeftOnRectangle,
 } from "react-icons/hi2";
 
-export default function AdminLayout() {
+export default function SellerLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     return (
         <div className="grid grid-cols-12 grid-rows-12 h-screen">
@@ -51,7 +51,7 @@ export default function AdminLayout() {
                 <ul className="flex flex-col gap-2 mt-4 flex-1">
                     <li className="flex items-center">
                         <AdminNavLink
-                            path="/admin/"
+                            path="/seller/dashboard"
                             text={`${sidebarOpen ? "Dashboard" : ""}`}
                             className={`${
                                 sidebarOpen ? " flex-1" : "flex-grow-0 m-auto"
@@ -60,20 +60,10 @@ export default function AdminLayout() {
                             <HiMiniSquares2X2 />
                         </AdminNavLink>
                     </li>
+
                     <li className="flex">
                         <AdminNavLink
-                            path="/admin/users"
-                            text={`${sidebarOpen ? "Users" : ""}`}
-                            className={`${
-                                sidebarOpen ? " flex-1" : "flex-grow-0 m-auto"
-                            }`}
-                        >
-                            <HiMiniUser />
-                        </AdminNavLink>
-                    </li>
-                    <li className="flex">
-                        <AdminNavLink
-                            path="/admin/products"
+                            path="/seller/products"
                             text={`${sidebarOpen ? "Products" : ""}`}
                             className={`${
                                 sidebarOpen ? " flex-1" : "flex-grow-0 m-auto"

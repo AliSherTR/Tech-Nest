@@ -11,15 +11,17 @@ import { AuthProvider } from "./context/authContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import GoogleSignin from "./ui/GoogleSignin";
 import AdminLayout from "./ui/AdminLayout";
-import Dashboard from "./pages/admin/Dashboard";
-import Users from "./pages/admin/Users";
-import Products from "./pages/admin/Products";
+import AdminDashboard from "./pages/admin/Dashboard";
+import SellerDashboard from "./pages/Seller/Dashboard";
+import AdminUsers from "./pages/admin/Users";
+import AdminProducts from "./pages/admin/Products";
+import SellerLayout from "./ui/SellerLayout";
+import SellerProducts from "./pages/Seller/Products";
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             staleTime: 60 * 1000,
-            // staleTime: 0,
         },
     },
 });
@@ -31,14 +33,7 @@ export default function App() {
                 <ReactQueryDevtools initialIsOpen={false} />
                 <BrowserRouter>
                     <Routes>
-                        <Route
-                            path="/"
-                            element={
-                                <ProtectedRoute>
-                                    <Home />
-                                </ProtectedRoute>
-                            }
-                        />
+                        <Route path="/" element={<Home />} />
                         <Route path="/welcome" element={<Welcome />} />
                         <Route
                             path="/authentication"
@@ -51,10 +46,39 @@ export default function App() {
                                 element={<GoogleSignin />}
                             />
                         </Route>
-                        <Route path="/admin" element={<AdminLayout />}>
-                            <Route path="dashboard" element={<Dashboard />} />
-                            <Route path="users" element={<Users />} />
-                            <Route path="products" element={<Products />} />
+                        <Route
+                            path="/admin"
+                            element={
+                                <ProtectedRoute>
+                                    <AdminLayout />
+                                </ProtectedRoute>
+                            }
+                        >
+                            <Route index element={<AdminDashboard />} />
+                            <Route path="users" element={<AdminUsers />} />
+                            <Route
+                                path="products"
+                                element={<AdminProducts />}
+                            />
+                        </Route>
+
+                        <Route
+                            path="/seller"
+                            element={
+                                <ProtectedRoute>
+                                    <SellerLayout />
+                                </ProtectedRoute>
+                            }
+                        >
+                            <Route
+                                path="dashboard"
+                                element={<SellerDashboard />}
+                            />
+
+                            <Route
+                                path="products"
+                                element={<SellerProducts />}
+                            />
                         </Route>
                     </Routes>
                     <Toaster
