@@ -4,17 +4,17 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
-    const users = await User.find();
-    if (users) {
+    const users = await User.find().select("username email image");
+
+    if (users.length > 0) {
         res.status(200).json({
             users,
         });
-        return;
+    } else {
+        const error = new Error("No Users Found");
+        error.statusCode = 404;
+        throw error;
     }
-
-    const error = new Error("No Users Found");
-    error.statusCode = 404;
-    throw error;
 });
 
 exports.registerUser = asyncHandler(async (req, res, next) => {
@@ -56,6 +56,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
         res.status(200).json({
             username: user.username,
             email: user.email,
+            role: user.role,
             token: token,
         });
 
