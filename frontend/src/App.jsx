@@ -39,7 +39,7 @@ export default function App() {
                             path="/authentication"
                             element={<AuthenticationLayout />}
                         >
-                            <Route path="signin" element={<SignIn />} />
+                            <Route index element={<SignIn />} />
                             <Route path="signup" element={<SignUp />} />
                             <Route
                                 path="google-sigin"
@@ -70,10 +70,7 @@ export default function App() {
                                 </ProtectedRoute>
                             }
                         >
-                            <Route
-                                path="dashboard"
-                                element={<SellerDashboard />}
-                            />
+                            <Route index element={<SellerDashboard />} />
 
                             <Route
                                 path="products"

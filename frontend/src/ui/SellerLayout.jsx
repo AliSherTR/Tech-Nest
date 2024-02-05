@@ -51,7 +51,7 @@ export default function SellerLayout() {
                 <ul className="flex flex-col gap-2 mt-4 flex-1">
                     <li className="flex items-center">
                         <AdminNavLink
-                            path="/seller/dashboard"
+                            path="/seller/"
                             text={`${sidebarOpen ? "Dashboard" : ""}`}
                             className={`${
                                 sidebarOpen ? " flex-1" : "flex-grow-0 m-auto"

@@ -143,7 +143,7 @@ export default function SignUp() {
 
             <p className="self-center">
                 Already have an account?
-                <Link to="/authentication/signin" className=" underline">
+                <Link to="/authentication" className=" underline">
                     Log in
                 </Link>
             </p>
