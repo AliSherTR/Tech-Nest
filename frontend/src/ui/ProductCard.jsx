@@ -1,20 +1,20 @@
 export default function ProductCard({ image, name, price }) {
     return (
-        <div className=" border">
-            <a href="#" className=" w-full  bg-gray-100 block">
+        <div className=" border rounded-sm flex flex-col">
+            <a href="#" className=" overflow-hidden bg-gray-100 basis-1/2">
                 <img
-                    className=" w-60 h-60 m-auto"
+                    className=" w-full m-auto"
                     src={image}
                     alt="product image"
                 />
             </a>
-            <div className="px-5 pb-5">
+            <div className="px-5 flex-1">
                 <a href="#">
                     <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                         {name}
                     </h5>
                 </a>
-                <div className="flex items-center mt-2.5 mb-5">
+                <div className="flex items-center mt-2.5 ">
                     <div className="flex items-center space-x-1 rtl:space-x-reverse">
                         <svg
                             className="w-4 h-4 text-yellow-300 dark:text-gray-600"

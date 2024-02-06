@@ -122,7 +122,7 @@ export default function AdminLayout() {
                     </main>
                 </>
             ) : (
-                <Navigate to="/" />
+                <Navigate to="/authentication" />
             )}
         </div>
     );

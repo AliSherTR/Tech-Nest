@@ -16,11 +16,9 @@ export default function Home() {
             <Header />
             <Hero />
 
-            <div className=" max-w-screen-xl m-auto rounded-lg  mb-3 dark:bg-gray-800 dark:border-gray-700">
-                <h1 className=" font-bold text-center text-3xl">
-                    Our Products
-                </h1>
-                <div className="grid grid-cols-4 gap-3 gap-y-4">
+            <div className=" p-3 mb-3 dark:bg-gray-800 dark:border-gray-700">
+                <h1 className="font-bold  text-3xl">Our Products</h1>
+                <div className="grid md:grid-cols-4 gap-3 gap-y-4">
                     {isLoading && <p>Loading........</p>}
                     {products?.map((product) => {
                         return (

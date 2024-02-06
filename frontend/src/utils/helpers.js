@@ -1,6 +1,11 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
+export const logoutUser = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+};
+
 export const getAllUsers = async () => {
     try {
         const res = await axios.get("http://localhost:8000/api/users/");
