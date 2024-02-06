@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useAuth } from "../context/authContext";
+
 const Header = () => {
     const { state } = useAuth();
-    console.log(state.user);
     return (
         <>
             <header className="container mx-auto px-4 py-2 flex items-center justify-between bg-gray-900 text-white ">
