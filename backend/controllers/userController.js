@@ -106,6 +106,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         status: "success",
         username: user.username,
+        role: user.role,
         email: user.email,
     });
 });
