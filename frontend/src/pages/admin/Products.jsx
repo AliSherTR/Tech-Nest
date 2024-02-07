@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from "react-query";
 import AdminProductRow from "../../ui/AdminProductRow";
-import { deleteProduct, getAllProducts } from "../../utils/helpers";
 import AdminAddBtn from "../../ui/AdminAddBtn";
+import LoadingIndicator from "../../ui/LoadingIndicator";
+import { deleteProduct, getAllProducts } from "../../utils/helpers";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -51,8 +52,8 @@ export default function Products() {
         console.log(formData);
     };
 
-    if (isLoading) return <p>Loading.......</p>;
-    if (isDeleting) return <p>Deleting......</p>;
+    if (isLoading) return <LoadingIndicator />;
+    if (isDeleting) return <LoadingIndicator />;
     return (
         <>
             <div className="flex flex-col gap-2">

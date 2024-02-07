@@ -3,6 +3,7 @@ import AdminTableRow from "../../ui/AdminTableRow";
 import { getAllUsers } from "../../utils/helpers";
 import toast from "react-hot-toast";
 import AdminAddBtn from "../../ui/AdminAddBtn";
+import LoadingIndicator from "../../ui/LoadingIndicator";
 
 export default function Users() {
     const { isLoading, data } = useQuery({
@@ -13,7 +14,7 @@ export default function Users() {
         },
     });
 
-    if (isLoading) return <p>Loading......</p>;
+    if (isLoading) return <LoadingIndicator />;
 
     return (
         <div className="flex flex-col gap-2">

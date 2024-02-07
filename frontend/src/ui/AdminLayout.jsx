@@ -17,7 +17,7 @@ export default function AdminLayout() {
     if (!state || !state.user) {
         return <LoadingIndicator />;
     }
-    const { role } = state.user;
+    const { role, username } = state.user;
     return (
         <div className="grid grid-cols-12 grid-rows-12 h-screen">
             {role === "admin" ? (
@@ -42,6 +42,16 @@ export default function AdminLayout() {
                                     <HiMagnifyingGlass />
                                 </button>
                             </div>
+                        </div>
+                        <div className=" ms-auto flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-gray-300 overflow-hidden">
+                                <img
+                                    src="https://avatars.githubusercontent.com/u/94902748?v=4"
+                                    className=" w-full "
+                                />
+                            </div>
+                            {username?.charAt(0).toUpperCase() +
+                                username?.slice(1)}
                         </div>
                     </nav>
                     <aside

@@ -7,7 +7,7 @@ const Header = () => {
     const { state } = useAuth();
     return (
         <>
-            <header className="container mx-auto px-4 py-2 flex items-center justify-between bg-gray-900 text-white ">
+            <header className=" mx-auto px-4 py-2 flex items-center justify-between bg-gray-900 text-white ">
                 <Link to="/" className="font-boldk text-xl text-teal-500">
                     <img src={logo} alt="Tech Nest" className=" w-12 h-12" />
                 </Link>
