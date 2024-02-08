@@ -11,6 +11,7 @@ import {
 } from "react-icons/hi2";
 import { useAuth } from "../context/authContext";
 import LoadingIndicator from "./LoadingIndicator";
+import { logoutUser } from "../utils/helpers";
 export default function AdminLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const { state } = useAuth();
@@ -108,18 +109,20 @@ export default function AdminLayout() {
                                 </AdminNavLink>
                             </li>
 
-                            <li className="flex mt-auto mb-4">
-                                <AdminNavLink
-                                    path="/"
-                                    text={`${sidebarOpen ? "Logout" : ""}`}
+                            <li
+                                className="flex items-center gap-3 mt-auto mb-4 cursor-pointer"
+                                onClick={logoutUser}
+                            >
+                                <HiOutlineArrowLeftOnRectangle />
+                                <span
                                     className={`${
                                         sidebarOpen
                                             ? " flex-1"
                                             : "flex-grow-0 m-auto"
                                     }`}
                                 >
-                                    <HiOutlineArrowLeftOnRectangle />
-                                </AdminNavLink>
+                                    {`${sidebarOpen ? "Logout" : ""}`}
+                                </span>
                             </li>
                         </ul>
                     </aside>

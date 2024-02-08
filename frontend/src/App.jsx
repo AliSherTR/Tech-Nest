@@ -30,7 +30,7 @@ export default function App() {
     return (
         <AuthProvider>
             <QueryClientProvider client={queryClient}>
-                <ReactQueryDevtools initialIsOpen={false} />
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Home />} />

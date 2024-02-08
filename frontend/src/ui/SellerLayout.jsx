@@ -7,13 +7,14 @@ import {
     HiMagnifyingGlass,
     HiMiniShoppingCart,
     HiMiniSquares2X2,
-    HiMiniUser,
     HiOutlineArrowLeftOnRectangle,
 } from "react-icons/hi2";
+import { logoutUser } from "../utils/helpers.js";
 
 export default function SellerLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const { state } = useAuth();
+    const { username } = state.user;
     return (
         <div className="grid grid-cols-12 grid-rows-12 h-screen">
             <nav
@@ -35,7 +36,6 @@ export default function SellerLayout() {
                         </button>
                     </div>
                 </div>
-
                 <div className=" ms-auto flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-gray-300 overflow-hidden">
                         <img
@@ -43,8 +43,7 @@ export default function SellerLayout() {
                             className=" w-full "
                         />
                     </div>
-                    {state?.user?.username.charAt(0).toUpperCase() +
-                        state?.user?.username.slice(1)}
+                    {username?.charAt(0).toUpperCase() + username?.slice(1)}
                 </div>
             </nav>
 
@@ -86,16 +85,18 @@ export default function SellerLayout() {
                         </AdminNavLink>
                     </li>
 
-                    <li className="flex mt-auto mb-4">
-                        <AdminNavLink
-                            path="/"
-                            text={`${sidebarOpen ? "Logout" : ""}`}
+                    <li
+                        className="flex items-center gap-3 mt-auto mb-4 cursor-pointer"
+                        onClick={logoutUser}
+                    >
+                        <HiOutlineArrowLeftOnRectangle />
+                        <span
                             className={`${
                                 sidebarOpen ? " flex-1" : "flex-grow-0 m-auto"
                             }`}
                         >
-                            <HiOutlineArrowLeftOnRectangle />
-                        </AdminNavLink>
+                            {`${sidebarOpen ? "Logout" : ""}`}
+                        </span>
                     </li>
                 </ul>
             </aside>
