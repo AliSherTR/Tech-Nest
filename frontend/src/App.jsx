@@ -6,12 +6,13 @@ import SignUp from "./pages/SignUp";
 import AuthenticationLayout from "./ui/AuthenticationLayout";
 import SignIn from "./pages/SignIn";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+// import { ReactQueryDevtools } from "react-query/devtools";
 import { AuthProvider } from "./context/authContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import GoogleSignin from "./ui/GoogleSignin";
 import AdminLayout from "./ui/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
+import AddProductsPage from "./pages/admin/AddProductsPage";
 import SellerDashboard from "./pages/Seller/Dashboard";
 import AdminUsers from "./pages/admin/Users";
 import AdminProducts from "./pages/admin/Products";
@@ -57,7 +58,11 @@ export default function App() {
                             <Route index element={<AdminDashboard />} />
                             <Route path="users" element={<AdminUsers />} />
                             <Route
-                                path="products"
+                                path="products/add"
+                                element={<AddProductsPage />}
+                            />
+                            <Route
+                                path="products/"
                                 element={<AdminProducts />}
                             />
                         </Route>

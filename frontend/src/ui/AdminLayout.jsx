@@ -1,6 +1,7 @@
 import { Link, Navigate, Outlet } from "react-router-dom";
 import AdminNavLink from "./AdminNavLink";
 import { useState } from "react";
+import logo from "../assets/logo.png";
 import {
     HiBars3CenterLeft,
     HiMagnifyingGlass,
@@ -12,8 +13,19 @@ import {
 import { useAuth } from "../context/authContext";
 import LoadingIndicator from "./LoadingIndicator";
 import { logoutUser } from "../utils/helpers";
+import { HiChevronDown } from "react-icons/hi";
 export default function AdminLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [openUsers, setOpenUsers] = useState(false);
+    const [openProducts, setOpenProducts] = useState(false);
+    const toggleUsers = () => {
+        setOpenUsers(!openUsers);
+    };
+
+    const toggleProducts = () => {
+        setOpenProducts(!openProducts);
+    };
+
     const { state } = useAuth();
     if (!state || !state.user) {
         return <LoadingIndicator />;
@@ -66,10 +78,16 @@ export default function AdminLayout() {
                                 sidebarOpen ? "text-lg" : " text-xs"
                             } `}
                         >
+                            <img
+                                src={logo}
+                                alt="Tech Nest"
+                                className=" w-14 h-14 block m-auto"
+                            />
                             Tech Nest
                         </Link>
+
                         <ul className="flex flex-col gap-2 mt-4 flex-1">
-                            <li className="flex items-center">
+                            <li className="">
                                 <AdminNavLink
                                     path="/admin/"
                                     text={`${sidebarOpen ? "Dashboard" : ""}`}
@@ -82,31 +100,110 @@ export default function AdminLayout() {
                                     <HiMiniSquares2X2 />
                                 </AdminNavLink>
                             </li>
-                            <li className="flex">
-                                <AdminNavLink
-                                    path="/admin/users"
-                                    text={`${sidebarOpen ? "Users" : ""}`}
-                                    className={`${
-                                        sidebarOpen
-                                            ? " flex-1"
-                                            : "flex-grow-0 m-auto"
-                                    }`}
+
+                            <li className=" flex flex-col px-3 cursor-pointer mb-3 mt-2">
+                                <div
+                                    className={`flex-1 flex items-center gap-3 ${
+                                        sidebarOpen ? "justify-between" : ""
+                                    } `}
                                 >
-                                    <HiMiniUser />
-                                </AdminNavLink>
+                                    <div className=" flex items-center gap-2 ">
+                                        <HiMiniUser />{" "}
+                                        <span className=" ms-1">{`${
+                                            sidebarOpen ? "Users" : ""
+                                        }`}</span>
+                                    </div>
+                                    <div>
+                                        <HiChevronDown
+                                            onClick={() => toggleUsers()}
+                                        />
+                                    </div>
+                                </div>
+
+                                {openUsers && (
+                                    <div className=" mt-3 ">
+                                        <AdminNavLink
+                                            path="/admin/users"
+                                            text="All Users"
+                                            className={`${
+                                                sidebarOpen
+                                                    ? " flex-1"
+                                                    : "flex-grow-0 m-auto"
+                                            }`}
+                                        />
+
+                                        <AdminNavLink
+                                            path="/admin/users/add"
+                                            text="Add User"
+                                            className={`${
+                                                sidebarOpen
+                                                    ? " flex-1"
+                                                    : "flex-grow-0 m-auto"
+                                            }`}
+                                        />
+                                        <AdminNavLink
+                                            path="/admin/users/delete"
+                                            text="Delete User"
+                                            className={`${
+                                                sidebarOpen
+                                                    ? " flex-1"
+                                                    : "flex-grow-0 m-auto"
+                                            }`}
+                                        />
+                                    </div>
+                                )}
                             </li>
-                            <li className="flex">
-                                <AdminNavLink
-                                    path="/admin/products"
-                                    text={`${sidebarOpen ? "Products" : ""}`}
-                                    className={`${
-                                        sidebarOpen
-                                            ? " flex-1"
-                                            : "flex-grow-0 m-auto"
-                                    }`}
+                            <li className="flex flex-col px-3 cursor-pointer mb-3">
+                                <div
+                                    className={`flex-1 flex items-center gap-3 ${
+                                        sidebarOpen ? "justify-between" : ""
+                                    } `}
                                 >
-                                    <HiMiniShoppingCart />
-                                </AdminNavLink>
+                                    <div className=" flex items-center gap-2 ">
+                                        <HiMiniShoppingCart />{" "}
+                                        <span className=" ms-1">{`${
+                                            sidebarOpen ? "Products" : ""
+                                        }`}</span>
+                                    </div>
+                                    <div>
+                                        <HiChevronDown
+                                            onClick={() => toggleProducts()}
+                                        />
+                                    </div>
+                                </div>
+
+                                {openProducts && (
+                                    <div className=" mt-3 ">
+                                        <AdminNavLink
+                                            path="/admin/products/"
+                                            text="All Products"
+                                            className={`${
+                                                sidebarOpen
+                                                    ? " flex-1"
+                                                    : "flex-grow-0 m-auto"
+                                            }`}
+                                        />
+
+                                        <AdminNavLink
+                                            path="/admin/products/add"
+                                            text="Add Products"
+                                            className={`${
+                                                sidebarOpen
+                                                    ? " flex-1"
+                                                    : "flex-grow-0 m-auto"
+                                            }`}
+                                        />
+                                        <AdminNavLink
+                                            path="/admin/products/delete"
+                                            text="Delete Product"
+                                            className={`${
+                                                sidebarOpen
+                                                    ? " flex-1"
+                                                    : "flex-grow-0 m-auto"
+                                            }`}
+                                        />
+                                    </div>
+                                )}
                             </li>
 
                             <li
