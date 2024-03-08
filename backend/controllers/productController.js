@@ -14,8 +14,17 @@ exports.getAllProducts = asyncHandler(async (req, res) => {
 });
 
 exports.addNewProduct = asyncHandler(async (req, res) => {
-    const { name, price, description, brand, image, stock, quantity } =
-        req.body;
+    const {
+        name,
+        price,
+        description,
+        brand,
+        image,
+        stock,
+        quantity,
+        category,
+    } = req.body;
+
     console.log(name, price, description, brand, image, stock, quantity);
 
     // const images =
@@ -39,6 +48,7 @@ exports.addNewProduct = asyncHandler(async (req, res) => {
         image,
         stock,
         quantity,
+        category,
     });
 
     res.status(200).json({
