@@ -18,19 +18,16 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         required: [true, "A product must have a price"],
     },
-    specifications: {
-        processor: String,
-        RAM: String,
-        storage: String,
-        screenSize: String,
-    },
-    images: {
-        type: [String],
+    image: {
+        type: String,
         required: [true, "A product must have an image"],
     },
     stock: {
         type: Number,
         default: 0,
+    },
+    qunatity: {
+        type: Number,
     },
     ratings: [
         {

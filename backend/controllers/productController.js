@@ -14,23 +14,31 @@ exports.getAllProducts = asyncHandler(async (req, res) => {
 });
 
 exports.addNewProduct = asyncHandler(async (req, res) => {
-    const productData = req.body;
-    const images =
-        req.files && Array.isArray(req.files)
-            ? req.files.map((file) => file.path)
-            : [];
+    const { name, price, description, brand, image, stock, quantity } =
+        req.body;
+    console.log(name, price, description, brand, image, stock, quantity);
 
-    console.log(req.files);
+    // const images =
+    //     req.files && Array.isArray(req.files)
+    //         ? req.files.map((file) => file.path)
+    //         : [];
 
-    if (!productData) {
-        const error = new Error("No Product added");
-        error.code = 404;
-        throw error;
-    }
+    // console.log(req.files);
+
+    // if (!productData) {
+    //     const error = new Error("No Product added");
+    //     error.code = 404;
+    //     throw error;
+    // }
 
     const newProduct = await Product.create({
-        ...productData,
-        images: images,
+        name,
+        price,
+        description,
+        brand,
+        image,
+        stock,
+        quantity,
     });
 
     res.status(200).json({
