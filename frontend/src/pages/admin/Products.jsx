@@ -1,16 +1,11 @@
 import { useMutation, useQuery } from "react-query";
 import AdminProductRow from "../../ui/AdminProductRow";
-import AdminAddBtn from "../../ui/AdminAddBtn";
 import LoadingIndicator from "../../ui/LoadingIndicator";
 import { deleteProduct, getAllProducts } from "../../utils/helpers";
-import { useState } from "react";
+
 import toast from "react-hot-toast";
-import axios from "axios";
-import { IoClose } from "react-icons/io5";
 
 export default function Products() {
-    const [showForm, setShowForm] = useState(false);
-
     const { isLoading, data: products } = useQuery({
         queryKey: ["products"],
         queryFn: getAllProducts,
@@ -50,19 +45,12 @@ export default function Products() {
                             name={product.name}
                             key={product._id}
                             stock={product.stock}
-                            imageUrl={product.image}
+                            imageUrl={`http://localhost:8000/${product.image}`}
                             deleteHandler={() => mutate(product._id)}
                             updateHandler={() => alert("Update")}
                         />
                     );
                 })}
-
-                <div className=" self-end mb-6">
-                    <AdminAddBtn
-                        text={"Add a product"}
-                        onclick={() => setShowForm(!showForm)}
-                    />
-                </div>
             </div>
         </>
     );

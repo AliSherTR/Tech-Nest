@@ -21,6 +21,7 @@ export const getAllUsers = async () => {
 export async function getAllProducts() {
     try {
         const res = await axios.get(`${BASE_URL}/products`);
+        console.log(res.data.products);
         return res.data.products;
     } catch (error) {
         toast.error("Error getting products");

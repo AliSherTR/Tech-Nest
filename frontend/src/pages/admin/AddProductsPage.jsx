@@ -11,28 +11,39 @@ export default function AddProductsPage() {
         price: 0,
         category: "",
         discountPrice: 0,
-        image: "",
+        image: null,
         quantity: "",
     });
     const handleFileChange = (e) => {
-        const selectedFile = e.target.files;
+        const selectedFile = e.target.files[0];
         if (selectedFile) {
             setFormData((prevData) => ({
                 ...prevData,
-                images: [...prevData.images, ...selectedFile],
+                image: selectedFile,
             }));
         }
     };
-    const { mutate: createProduct } = useMutation({
-        mutationFn: async () => {
-            axios.post("http://localhost:8000/api/products/add", formData);
-        },
+    const { mutate: createProduct } = useMutation((formData) => {
+        return axios.post("http://localhost:8000/api/products/add", formData);
     });
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        createProduct();
-        console.log(formData);
+        const formDataToSend = new FormData();
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("price", formData.price);
+        formDataToSend.append("description", formData.description);
+        formDataToSend.append("brand", formData.brand);
+        formDataToSend.append("quantity", formData.quantity);
+        formDataToSend.append("category", formData.category);
+        formDataToSend.append("file", formData.image); // 'file' should match the multer field name
+
+        try {
+            await createProduct(formDataToSend);
+            console.log("Product added successfully");
+        } catch (error) {
+            console.error("Error adding product:", error);
+        }
     };
     return (
         <div className="">
@@ -112,6 +123,8 @@ export default function AddProductsPage() {
                                 type="file"
                                 className="block py-3 px-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none  dark:border-gray-600 dark:placeholder-gray-400"
                                 id="multiple_files"
+                                onChange={handleFileChange}
+                                name="file" // Make sure the name matches what Multer expects
                             />
                         </div>
                         <div>
