@@ -50,7 +50,7 @@ export default function Products() {
                             name={product.name}
                             key={product._id}
                             stock={product.stock}
-                            imageUrl={product.images[0]}
+                            imageUrl={product.image}
                             deleteHandler={() => mutate(product._id)}
                             updateHandler={() => alert("Update")}
                         />

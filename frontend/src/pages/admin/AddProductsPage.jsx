@@ -8,10 +8,11 @@ export default function AddProductsPage() {
         name: "",
         brand: "",
         description: "",
-        price: "",
-        specifications: [],
-        images: [],
-        stock: "",
+        price: 0,
+        category: "",
+        discountPrice: 0,
+        image: "",
+        quantity: "",
     });
     const handleFileChange = (e) => {
         const selectedFile = e.target.files;
@@ -38,7 +39,6 @@ export default function AddProductsPage() {
             <h1 className=" text-xl mt-4 font-bold mb-3">
                 Add Product Details
             </h1>
-            {/* <form className="flex flex-col gap-1" encType="multipart/form-data"> */}
             <form encType="multipart/form-data">
                 <div className=" flex items-start gap-2">
                     <div className="flex-1">
@@ -51,7 +51,14 @@ export default function AddProductsPage() {
                                 <input
                                     type="text"
                                     id="product_name"
-                                    className=" block mt-2 px-3 py-3 min-w-full rounded-md border  "
+                                    className=" block mt-2 px-3 py-3 min-w-full rounded-md border"
+                                    value={formData.name}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            name: e.target.value,
+                                        })
+                                    }
                                 />
                             </div>
                             <div>
@@ -61,7 +68,14 @@ export default function AddProductsPage() {
                                 <input
                                     type="text"
                                     id="product_brand"
-                                    className=" block mt-2 px-3 py-3 min-w-full rounded-md border  "
+                                    className=" block mt-2 px-3 py-3 min-w-full rounded-md border"
+                                    value={formData.brand}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            brand: e.target.value,
+                                        })
+                                    }
                                 />
                             </div>
                         </div>
@@ -74,24 +88,30 @@ export default function AddProductsPage() {
                                 id="product_desc"
                                 className=" block mt-2 px-3 py-3  min-w-full rounded-md border"
                                 rows={10}
+                                value={formData.description}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        description: e.target.value,
+                                    })
+                                }
                             />
                         </div>
                     </div>
 
                     <div className=" flex-1 px-2 py-3 bg-white rounded-md row-span-full row-end-12 col-start-2 col-end-2 ">
                         <div className=" mb-5">
-                            <h1 className=" font-bold mb-5">Category</h1>
+                            <h1 className=" font-bold mb-5">Image</h1>
                             <label
                                 className="block mb-2 text-sm font-medium text-gray-900"
                                 htmlFor="multiple_files"
                             >
-                                Product Images
+                                Product Image
                             </label>
                             <input
                                 type="file"
                                 className="block py-3 px-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none  dark:border-gray-600 dark:placeholder-gray-400"
                                 id="multiple_files"
-                                multiple
                             />
                         </div>
                         <div>
@@ -103,15 +123,24 @@ export default function AddProductsPage() {
                                 <select
                                     type="text"
                                     id="product_category"
-                                    className=" block mt-2 px-3 py-3 min-w-full rounded-md border  "
+                                    className=" block mt-2 px-3 py-3 min-w-full rounded-md border"
+                                    value={formData.category}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            category: e.target.value,
+                                        })
+                                    }
                                 >
-                                    <option value="">Mobile</option>
-                                    <option value="">Laptop</option>
-                                    <option value="">Tablets</option>
-                                    <option value="">Audio</option>
-                                    <option value="">Camera</option>
-                                    <option value="">Smart Watches</option>
-                                    <option value="">Others</option>
+                                    <option value="mobile">Mobile</option>
+                                    <option value="laptop">Laptop</option>
+                                    <option value="tablet">Tablets</option>
+                                    <option value="audio">Audio</option>
+                                    <option value="camera">Camera</option>
+                                    <option value="watches">
+                                        Smart Watches
+                                    </option>
+                                    <option value="other">Others</option>
                                 </select>
                             </div>
 
@@ -123,7 +152,14 @@ export default function AddProductsPage() {
                                     <input
                                         type="Number"
                                         id="product_price"
-                                        className=" block mt-2 px-3 py-3 min-w-full rounded-md border  "
+                                        className=" block mt-2 px-3 py-3 min-w-full rounded-md border"
+                                        value={formData.price}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                price: e.target.value,
+                                            })
+                                        }
                                     />
                                 </div>
                                 <div className=" flex-1">
@@ -133,7 +169,14 @@ export default function AddProductsPage() {
                                     <input
                                         type="number"
                                         id="product_discount"
-                                        className=" block mt-2 px-3 py-3 min-w-full rounded-md border  "
+                                        className=" block mt-2 px-3 py-3 min-w-full rounded-md border"
+                                        value={formData.discountPrice}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                discountPrice: e.target.value,
+                                            })
+                                        }
                                     />
                                 </div>
                             </div>
@@ -145,6 +188,13 @@ export default function AddProductsPage() {
                                     type="Number"
                                     id="product_qty"
                                     className="block mt-2 px-3 py-3 min-w-full rounded-md border"
+                                    value={formData.quantity}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            quantity: e.target.value,
+                                        })
+                                    }
                                 />
                             </div>
                             <AdminAddBtn
@@ -154,224 +204,6 @@ export default function AddProductsPage() {
                         </div>
                     </div>
                 </div>
-
-                {/* <div className=" grid grid-cols-2 grid-rows-12 gap-3  h-[70vh]"></div> */}
-                {/* <div className=" flex gap-3 justify-between mb-5">
-                    <div className="flex-1 px-2 py-3 bg-white rounded-md self-start ">
-                        <h1 className=" font-bold mb-5">Description</h1>
-                        <div>
-                            <label htmlFor="product_name">Product Name</label>
-                            <input
-                                type="text"
-                                id="product_name"
-                                className=" block mt-2 px-3 py-3 min-w-full rounded-md border  "
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="product_brand">Brand Name</label>
-                            <input
-                                type="text"
-                                id="product_brand"
-                                className=" block mt-2 px-3 py-3 min-w-full rounded-md border  "
-                            />
-                        </div>
-                    </div>
-                    <div className="flex-1 px-2 py-3 bg-white rounded-md  ">
-                        <h1 className=" font-bold mb-5">Category</h1>
-                        <div>
-                            <label htmlFor="product_category">
-                                Product category
-                            </label>
-                            <select
-                                type="text"
-                                id="product_category"
-                                className=" block mt-2 px-3 py-3 min-w-full rounded-md border  "
-                            >
-                                <option value="">Mobile</option>
-                                <option value="">Laptop</option>
-                                <option value="">Tablets</option>
-                                <option value="">Audio</option>
-                                <option value="">Camera</option>
-                                <option value="">Smart Watches</option>
-                                <option value="">Others</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div className=" flex gap-3 justify-between mb-5">
-                    <div className="flex-1 px-2 py-3 bg-white rounded-md ">
-                        <h1 className=" font-bold mb-5">Description</h1>
-                        <label htmlFor="product_desc">Product Details</label>
-                        <textarea
-                            id="product_desc"
-                            className=" block mt-2 px-3 py-3 min-w-full rounded-md border   "
-                            rows={8}
-                        />
-                    </div>
-                    <div className=" flex-1"></div>
-                </div> */}
-
-                {/* <div className="flex gap-2">
-                    <h1 className=" font-semibold text-lg">Description</h1>
-                    <div className="flex-1">
-                        <input
-                            type="text"
-                            placeholder="Product Name"
-                            className="w-full auth-input-box"
-                            value={formData.name}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    name: e.target.value,
-                                })
-                            }
-                        />
-                    </div>
-                    <div className="flex-1">
-                        <input
-                            type="text"
-                            placeholder="Brand"
-                            className="w-full auth-input-box"
-                            value={formData.brand}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    brand: e.target.value,
-                                })
-                            }
-                        />
-                    </div>
-                </div>
-
-                <div className="flex-1">
-                    <input
-                        type="text"
-                        placeholder="Description"
-                        className="w-full auth-input-box"
-                        value={formData.description}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                description: e.target.value,
-                            })
-                        }
-                    />
-                </div>
-                <div className="flex-1">
-                    <input
-                        type="number"
-                        placeholder="Price"
-                        className="w-full auth-input-box"
-                        value={formData.price}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                price: e.target.value * 1,
-                            })
-                        }
-                    />
-                </div>
-                <div className="flex-1 flex items-center flex-wrap">
-                    <input
-                        type="text"
-                        placeholder="Ram (optional)"
-                        className="w-full auth-input-box"
-                        value={formData.specifications.ram}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                specifications: {
-                                    ...formData.specifications,
-                                    ram: e.target.value,
-                                },
-                            })
-                        }
-                    />
-                    <input
-                        type="text"
-                        placeholder="Processor (optional)"
-                        className="w-full auth-input-box"
-                        value={formData.specifications.processor}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                specifications: {
-                                    ...formData.specifications,
-                                    processor: e.target.value,
-                                },
-                            })
-                        }
-                    />
-                    <input
-                        type="text"
-                        placeholder="Storage (optional)"
-                        className="w-full auth-input-box"
-                        value={formData.specifications.storage}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                specifications: {
-                                    ...formData.specifications,
-                                    storage: e.target.value,
-                                },
-                            })
-                        }
-                    />
-                    <input
-                        type="text"
-                        placeholder="Screen Size (optional)"
-                        className="w-full auth-input-box"
-                        value={formData.specifications.screenSize}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                specifications: {
-                                    ...formData.specifications,
-                                    screenSize: e.target.value,
-                                },
-                            })
-                        }
-                    />
-                </div>
-                <h2>Select Images</h2>
-                <div className="flex-1">
-                    <input
-                        type="file"
-                        className="w-full"
-                        onChange={handleFileChange}
-                    />
-                    <input
-                        type="file"
-                        className="w-full"
-                        onChange={handleFileChange}
-                    />
-                    <input
-                        type="file"
-                        className="w-full"
-                        onChange={handleFileChange}
-                    />
-                    <input
-                        type="file"
-                        className="w-full"
-                        onChange={handleFileChange}
-                    />
-                </div>
-                <div className="flex-1">
-                    <input
-                        type="number"
-                        placeholder="Stock"
-                        className="w-full auth-input-box"
-                        value={formData.stock}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-
-                                stock: e.target.value * 1,
-                            })
-                        }
-                    />
-                </div>
-                <AdminAddBtn text={"Add"} onclick={handleFormSubmit} /> */}
             </form>
         </div>
     );
