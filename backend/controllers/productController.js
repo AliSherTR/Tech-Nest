@@ -14,31 +14,21 @@ exports.getAllProducts = asyncHandler(async (req, res) => {
 });
 
 exports.addNewProduct = asyncHandler(async (req, res) => {
-    const {
-        name,
-        price,
-        description,
-        brand,
-        image,
-        stock,
-        quantity,
-        category,
-    } = req.body;
+    const { name, price, description, brand, quantity, category } = req.body;
+    console.log(name, price, description, quantity, category);
 
-    console.log(name, price, description, brand, image, stock, quantity);
+    let image;
+    if (req.file) {
+        image = req.file.path.replace(/\\/g, "/"); // Replace all backslashes with forward slashes
+    } else {
+        return res.status(400).json({ error: "Image file is required." });
+    }
 
-    // const images =
-    //     req.files && Array.isArray(req.files)
-    //         ? req.files.map((file) => file.path)
-    //         : [];
-
-    // console.log(req.files);
-
-    // if (!productData) {
-    //     const error = new Error("No Product added");
-    //     error.code = 404;
-    //     throw error;
-    // }
+    if (!name || !price || !description || !brand || !quantity || !category) {
+        const error = new Error("One or more required fields are missing.");
+        error.code = 400;
+        throw error;
+    }
 
     const newProduct = await Product.create({
         name,
@@ -46,14 +36,18 @@ exports.addNewProduct = asyncHandler(async (req, res) => {
         description,
         brand,
         image,
-        stock,
         quantity,
         category,
     });
 
+    const imageUrl = `${req.protocol}://${req.get("host")}/${newProduct.image}`;
+
     res.status(200).json({
         status: "success",
-        data: newProduct,
+        data: {
+            ...newProduct._doc,
+            image: imageUrl,
+        },
     });
 });
 
