@@ -27,14 +27,15 @@ const ProductSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        // required: [true, "A product must have an image"],
+        required: [true, "A product must have an image"],
     },
     stock: {
         type: Number,
         default: 0,
     },
-    qunatity: {
+    quantity: {
         type: Number,
+        default: 0,
     },
     ratings: [
         {

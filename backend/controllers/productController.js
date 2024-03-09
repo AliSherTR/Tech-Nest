@@ -15,7 +15,6 @@ exports.getAllProducts = asyncHandler(async (req, res) => {
 
 exports.addNewProduct = asyncHandler(async (req, res) => {
     const { name, price, description, brand, quantity, category } = req.body;
-    console.log(name, price, description, quantity, category);
 
     let image;
     if (req.file) {
