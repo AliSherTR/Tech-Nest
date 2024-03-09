@@ -24,7 +24,7 @@ export default function Home() {
                         return (
                             <ProductCard
                                 key={product._id}
-                                image={product.images[0]}
+                                image={`http://localhost:8000/${product.image}`}
                                 price={product.price}
                                 name={product.name}
                             />

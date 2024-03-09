@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import AdminAddBtn from "../../ui/AdminAddBtn";
+import toast from "react-hot-toast";
 
 export default function AddProductsPage() {
+    const queryClient = useQueryClient();
     const [formData, setFormData] = useState({
         name: "",
         brand: "",
@@ -23,8 +25,20 @@ export default function AddProductsPage() {
             }));
         }
     };
-    const { mutate: createProduct } = useMutation((formData) => {
-        return axios.post("http://localhost:8000/api/products/add", formData);
+    const { mutate: createProduct } = useMutation({
+        mutationFn: (formData) => {
+            return axios.post(
+                "http://localhost:8000/api/products/add",
+                formData
+            );
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries("products");
+            toast.success("Product added successfully");
+        },
+        onError: () => {
+            toast.error("An error occured. Please try again");
+        },
     });
 
     const handleFormSubmit = async (e) => {
@@ -37,13 +51,8 @@ export default function AddProductsPage() {
         formDataToSend.append("quantity", formData.quantity);
         formDataToSend.append("category", formData.category);
         formDataToSend.append("file", formData.image); // 'file' should match the multer field name
-
-        try {
-            await createProduct(formDataToSend);
-            console.log("Product added successfully");
-        } catch (error) {
-            console.error("Error adding product:", error);
-        }
+        console.log(formData);
+        createProduct(formDataToSend);
     };
     return (
         <div className="">
@@ -124,7 +133,7 @@ export default function AddProductsPage() {
                                 className="block py-3 px-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none  dark:border-gray-600 dark:placeholder-gray-400"
                                 id="multiple_files"
                                 onChange={handleFileChange}
-                                name="file" // Make sure the name matches what Multer expects
+                                name="file"
                             />
                         </div>
                         <div>

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import AdminProductRow from "../../ui/AdminProductRow";
 import LoadingIndicator from "../../ui/LoadingIndicator";
 import { deleteProduct, getAllProducts } from "../../utils/helpers";
@@ -6,6 +6,7 @@ import { deleteProduct, getAllProducts } from "../../utils/helpers";
 import toast from "react-hot-toast";
 
 export default function Products() {
+    const queryClient = useQueryClient();
     const { isLoading, data: products } = useQuery({
         queryKey: ["products"],
         queryFn: getAllProducts,
@@ -14,6 +15,7 @@ export default function Products() {
     const { isLoading: isDeleting, mutate } = useMutation({
         mutationFn: (id) => deleteProduct(id),
         onSuccess: () => {
+            queryClient.invalidateQueries("products");
             toast.success("Product Deleted Successfully");
         },
     });
@@ -29,7 +31,7 @@ export default function Products() {
                         Name
                     </h5>
                     <h5 className="flex-1 font-bold text-center font-sans">
-                        Stock
+                        Remaining Stock
                     </h5>
                     <h5 className="flex-1 font-bold text-center font-sans">
                         Owner Name
@@ -44,7 +46,7 @@ export default function Products() {
                             id={product._id}
                             name={product.name}
                             key={product._id}
-                            stock={product.stock}
+                            quantity={product.quantity}
                             imageUrl={`http://localhost:8000/${product.image}`}
                             deleteHandler={() => mutate(product._id)}
                             updateHandler={() => alert("Update")}

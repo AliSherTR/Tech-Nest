@@ -36,3 +36,21 @@ export async function deleteProduct(id) {
         toast.error("Error Deleting the Product");
     }
 }
+
+export async function createProduct(data) {
+    try {
+        const res = await axios.post(
+            `${BASE_URL}/products/add`,
+            JSON.stringify(data),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return res.data;
+    } catch (error) {
+        toast.error("Error adding the product");
+        throw error; // Re-throw the error so the caller can catch it
+    }
+}

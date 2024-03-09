@@ -1,10 +1,9 @@
 import { HiClipboardList, HiOutlineTrash } from "react-icons/hi";
 
 export default function AdminProductRow({
-    id,
     name,
     imageUrl,
-    stock,
+    quantity,
     deleteHandler,
     updateHandler,
 }) {
@@ -19,7 +18,7 @@ export default function AdminProductRow({
             </div>
 
             <h5 className=" flex-1 text-center font-sans">{name}</h5>
-            <h5 className=" flex-1 text-center  font-sans">{stock}</h5>
+            <h5 className=" flex-1 text-center  font-sans">{quantity}</h5>
             <h5 className=" flex-1 text-center  font-sans">Ali sher Khan</h5>
             <div className="flex-1 flex gap-4 text-lg justify-center">
                 <button onClick={deleteHandler}>
