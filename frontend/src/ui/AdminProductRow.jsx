@@ -1,4 +1,5 @@
 import { HiClipboardList, HiOutlineTrash } from "react-icons/hi";
+import { HiOutlinePencil } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 
 export default function AdminProductRow({
@@ -29,7 +30,7 @@ export default function AdminProductRow({
                     </button>
                 ) : (
                     <Link to={`update/${id}`}>
-                        <HiClipboardList color="green" size={"23"} />
+                        <HiOutlinePencil color="green" size={"23"} />
                     </Link>
                 )}
             </div>

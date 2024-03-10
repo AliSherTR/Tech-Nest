@@ -25,7 +25,7 @@ export default function Products() {
                         Owner Name
                     </h5>
                     <h5 className="flex-1 font-bold text-center font-sans">
-                        Update
+                        Edit
                     </h5>
                 </div>
                 {products?.map((product) => {

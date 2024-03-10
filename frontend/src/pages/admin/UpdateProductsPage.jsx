@@ -90,7 +90,7 @@ export default function UpdateProductsPage() {
     return (
         <div className="">
             <h1 className=" text-xl mt-4 font-bold mb-3">
-                Update Product Details
+                Edit Product Details
             </h1>
             <form encType="multipart/form-data">
                 <div className=" flex items-start gap-2">
@@ -252,10 +252,17 @@ export default function UpdateProductsPage() {
                                     }
                                 />
                             </div>
-                            <AdminAddBtn
-                                text={"Add"}
-                                onclick={handleFormSubmit}
-                            />
+                            <div className=" flex justify-between gap-4">
+                                <AdminAddBtn
+                                    text={"Update"}
+                                    onclick={handleFormSubmit}
+                                />
+                                <AdminAddBtn
+                                    classname=" bg-red-600"
+                                    text={"Discard"}
+                                    onclick={handleFormSubmit}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
