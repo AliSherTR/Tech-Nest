@@ -15,7 +15,6 @@ exports.getAllProducts = asyncHandler(async (req, res) => {
 
 exports.addNewProduct = asyncHandler(async (req, res) => {
     const { name, price, description, brand, quantity, category } = req.body;
-
     let image;
     if (req.file) {
         image = req.file.path.replace(/\\/g, "/"); // Replace all backslashes with forward slashes
@@ -28,7 +27,6 @@ exports.addNewProduct = asyncHandler(async (req, res) => {
         error.code = 400;
         throw error;
     }
-
     const newProduct = await Product.create({
         name,
         price,
@@ -75,4 +73,41 @@ exports.getProduct = asyncHandler(async (req, res) => {
         status: "success",
         data: product,
     });
+});
+
+exports.updateProduct = asyncHandler(async (req, res) => {
+    const { name, price, description, brand, quantity, category } = req.body;
+    const { id } = req.params;
+    let image;
+    if (req.file) {
+        image = req.file.path.replace(/\\/g, "/"); // Replace all backslashes with forward slashes
+    } else {
+        return res.status(400).json({ error: "Image file is required." });
+    }
+
+    if (!name || !price || !description || !brand || !quantity || !category) {
+        const error = new Error("One or more required fields are missing.");
+        error.code = 400;
+        throw error;
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        {
+            name,
+            price,
+            description,
+            brand,
+            quantity,
+            category,
+            image,
+        },
+        { new: true }
+    );
+
+    if (!updatedProduct) {
+        return res.status(404).json({ error: "Product not found." });
+    }
+
+    res.json(updatedProduct);
 });

@@ -14,6 +14,8 @@ router.get("/", productController.getAllProducts);
 // GET route for retrieving single product
 router.get("/:id", productController.getProduct);
 
+router.put("/:id", upload.single("file"), productController.updateProduct);
+
 // DELETE route for deleting a product by ID
 router.delete("/delete/:id", productController.deleteProduct);
 
