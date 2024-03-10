@@ -62,3 +62,17 @@ exports.deleteProduct = asyncHandler(async (req, res) => {
         status: "success",
     });
 });
+
+exports.getProduct = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if (!product) {
+        const error = new Error("No Product Found");
+        error.code = 404;
+        throw error;
+    }
+    res.status(200).json({
+        status: "success",
+        data: product,
+    });
+});
