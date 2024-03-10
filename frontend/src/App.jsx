@@ -18,6 +18,8 @@ import AdminUsers from "./pages/admin/Users";
 import AdminProducts from "./pages/admin/Products";
 import SellerLayout from "./ui/SellerLayout";
 import SellerProducts from "./pages/Seller/Products";
+import DeleteProductsPage from "./pages/admin/DeleteProductsPage";
+import UpdateProductsPage from "./pages/admin/UpdateProductsPage";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -60,6 +62,14 @@ export default function App() {
                             <Route
                                 path="products/add"
                                 element={<AddProductsPage />}
+                            />
+                            <Route
+                                path="products/delete"
+                                element={<DeleteProductsPage />}
+                            />
+                            <Route
+                                path="products/update/:id"
+                                element={<UpdateProductsPage />}
                             />
                             <Route
                                 path="products/"

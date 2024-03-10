@@ -1,15 +1,24 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import toast from "react-hot-toast";
 import AdminProductRow from "../../ui/AdminProductRow";
 import LoadingIndicator from "../../ui/LoadingIndicator";
-import { getAllProducts } from "../../utils/helpers";
+import { deleteProduct, getAllProducts } from "../../utils/helpers";
 
-export default function Products() {
+export default function DeleteProductsPage() {
+    const queryClient = useQueryClient();
     const { isLoading, data: products } = useQuery({
         queryKey: ["products"],
         queryFn: getAllProducts,
     });
-
+    const { isLoading: isDeleting, mutate } = useMutation({
+        mutationFn: (id) => deleteProduct(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries("products");
+            toast.success("Product Deleted Successfully");
+        },
+    });
     if (isLoading) return <LoadingIndicator />;
+    if (isDeleting) return <LoadingIndicator />;
     return (
         <>
             <div className="flex flex-col gap-2">
@@ -25,17 +34,19 @@ export default function Products() {
                         Owner Name
                     </h5>
                     <h5 className="flex-1 font-bold text-center font-sans">
-                        Update
+                        Delete
                     </h5>
                 </div>
                 {products?.map((product) => {
                     return (
                         <AdminProductRow
+                            isDeleting={true}
                             id={product._id}
                             name={product.name}
                             key={product._id}
                             quantity={product.quantity}
                             imageUrl={`http://localhost:8000/${product.image}`}
+                            deleteHandler={() => mutate(product._id)}
                         />
                     );
                 })}
