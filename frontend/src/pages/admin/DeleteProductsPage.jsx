@@ -3,9 +3,11 @@ import toast from "react-hot-toast";
 import AdminProductRow from "../../ui/AdminProductRow";
 import LoadingIndicator from "../../ui/LoadingIndicator";
 import { deleteProduct, getAllProducts } from "../../utils/helpers";
+import { useAuth } from "../../context/authContext";
 
 export default function DeleteProductsPage() {
     const queryClient = useQueryClient();
+    const { state } = useAuth();
     const { isLoading, data: products } = useQuery({
         queryKey: ["products"],
         queryFn: getAllProducts,
@@ -47,6 +49,7 @@ export default function DeleteProductsPage() {
                             quantity={product.quantity}
                             imageUrl={`http://localhost:8000/${product.image}`}
                             deleteHandler={() => mutate(product._id)}
+                            ownerName={state.user.username}
                         />
                     );
                 })}

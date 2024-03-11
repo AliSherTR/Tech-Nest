@@ -32,7 +32,7 @@ export default function Users() {
                     name={user?.username}
                     email={user.email}
                     deleteHandler={() => alert("Delete")}
-                    role={"Admin"}
+                    role={user.role}
                     updateHandler={() => alert("Update")}
                 />
             ))}

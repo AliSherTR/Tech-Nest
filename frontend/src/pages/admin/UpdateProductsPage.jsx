@@ -6,11 +6,12 @@ import toast from "react-hot-toast";
 import { Navigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../utils/helpers";
 import LoadingIndicator from "../../ui/LoadingIndicator";
+import { useAuth } from "../../context/authContext";
 
 export default function UpdateProductsPage() {
     const queryClient = useQueryClient();
     const { id } = useParams();
-
+    const { state } = useAuth();
     const { isLoading, data: product } = useQuery({
         queryKey: ["product", id],
         queryFn: async () => {
@@ -69,12 +70,15 @@ export default function UpdateProductsPage() {
             formDataToSend.append("quantity", formData.quantity);
             formDataToSend.append("category", formData.category);
             formDataToSend.append("file", formData.image);
+            formDataToSend.append("userId", state.user.id);
+            formDataToSend.append("userName", state.user.username);
 
             return axios.put(`${BASE_URL}/products/${id}`, formDataToSend);
         },
         onSuccess: () => {
             queryClient.invalidateQueries("products");
             toast.success("Product updated successfully");
+            <Navigate to="/admin/products" replace />;
         },
         onError: () => {
             toast.error("An error occurred. Please try again");

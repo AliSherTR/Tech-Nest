@@ -8,6 +8,7 @@ export default function Products() {
         queryKey: ["products"],
         queryFn: getAllProducts,
     });
+    console.log(products);
 
     if (isLoading) return <LoadingIndicator />;
     return (
@@ -24,6 +25,7 @@ export default function Products() {
                     <h5 className="flex-1 font-bold text-center font-sans">
                         Owner Name
                     </h5>
+
                     <h5 className="flex-1 font-bold text-center font-sans">
                         Edit
                     </h5>
@@ -36,6 +38,7 @@ export default function Products() {
                             key={product._id}
                             quantity={product.quantity}
                             imageUrl={`http://localhost:8000/${product.image}`}
+                            ownerName={product.owner.name}
                         />
                     );
                 })}

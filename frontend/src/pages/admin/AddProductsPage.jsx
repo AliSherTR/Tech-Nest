@@ -3,9 +3,11 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import AdminAddBtn from "../../ui/AdminAddBtn";
 import toast from "react-hot-toast";
+import { useAuth } from "../../context/authContext";
 
 export default function AddProductsPage() {
     const queryClient = useQueryClient();
+    const { state } = useAuth();
     const [formData, setFormData] = useState({
         name: "",
         brand: "",
@@ -51,8 +53,20 @@ export default function AddProductsPage() {
         formDataToSend.append("quantity", formData.quantity);
         formDataToSend.append("category", formData.category);
         formDataToSend.append("file", formData.image); // 'file' should match the multer field name
-        console.log(formData);
+        formDataToSend.append("userId", state.user.id);
+        formDataToSend.append("userName", state.user.username);
+
         createProduct(formDataToSend);
+        setFormData({
+            name: "",
+            brand: "",
+            description: "",
+            price: 0,
+            category: "",
+            discountPrice: 0,
+            image: null,
+            quantity: "",
+        });
     };
     return (
         <div className="">
@@ -154,6 +168,7 @@ export default function AddProductsPage() {
                                         })
                                     }
                                 >
+                                    <option value="" selected></option>
                                     <option value="mobile">Mobile</option>
                                     <option value="laptop">Laptop</option>
                                     <option value="tablet">Tablets</option>
