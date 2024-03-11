@@ -14,7 +14,16 @@ exports.getAllProducts = asyncHandler(async (req, res) => {
 });
 
 exports.addNewProduct = asyncHandler(async (req, res) => {
-    const { name, price, description, brand, quantity, category } = req.body;
+    const {
+        name,
+        price,
+        description,
+        brand,
+        quantity,
+        category,
+        userId,
+        userName,
+    } = req.body;
     let image;
     if (req.file) {
         image = req.file.path.replace(/\\/g, "/"); // Replace all backslashes with forward slashes
@@ -22,7 +31,16 @@ exports.addNewProduct = asyncHandler(async (req, res) => {
         return res.status(400).json({ error: "Image file is required." });
     }
 
-    if (!name || !price || !description || !brand || !quantity || !category) {
+    if (
+        !name ||
+        !price ||
+        !description ||
+        !brand ||
+        !quantity ||
+        !category ||
+        !userName ||
+        !userId
+    ) {
         const error = new Error("One or more required fields are missing.");
         error.code = 400;
         throw error;
@@ -35,6 +53,8 @@ exports.addNewProduct = asyncHandler(async (req, res) => {
         image,
         quantity,
         category,
+        "owner.userId": userId,
+        "owner.name": userName,
     });
 
     const imageUrl = `${req.protocol}://${req.get("host")}/${newProduct.image}`;
@@ -76,16 +96,34 @@ exports.getProduct = asyncHandler(async (req, res) => {
 });
 
 exports.updateProduct = asyncHandler(async (req, res) => {
-    const { name, price, description, brand, quantity, category } = req.body;
+    const {
+        name,
+        price,
+        description,
+        brand,
+        quantity,
+        category,
+        userId,
+        userName,
+    } = req.body;
+    console.log(req.body);
     const { id } = req.params;
     let image;
     if (req.file) {
-        image = req.file.path.replace(/\\/g, "/"); // Replace all backslashes with forward slashes
+        image = req.file.path.replace(/\\/g, "/");
     } else {
         return res.status(400).json({ error: "Image file is required." });
     }
 
-    if (!name || !price || !description || !brand || !quantity || !category) {
+    if (
+        !name ||
+        !price ||
+        !description ||
+        !brand ||
+        !quantity ||
+        !category ||
+        !image
+    ) {
         const error = new Error("One or more required fields are missing.");
         error.code = 400;
         throw error;
@@ -101,6 +139,8 @@ exports.updateProduct = asyncHandler(async (req, res) => {
             quantity,
             category,
             image,
+            "owner.userId": userId,
+            "owner.name": userName,
         },
         { new: true }
     );

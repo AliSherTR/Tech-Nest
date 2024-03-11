@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
-    const users = await User.find().select("username email image");
+    const users = await User.find().select("username email image role");
 
     if (users.length > 0) {
         res.status(200).json({
@@ -58,6 +58,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
             email: user.email,
             role: user.role,
             token: token,
+            id: user._id,
         });
 
         return;

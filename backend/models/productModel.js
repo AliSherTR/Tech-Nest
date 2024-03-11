@@ -38,6 +38,10 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    owner: {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        name: { type: String, required: true },
+    },
     ratings: [
         {
             userId: mongoose.Schema.Types.ObjectId,
