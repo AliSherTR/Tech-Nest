@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/authContext";
+import { QueryClient, QueryClientProvider } from "react-query";
 import Welcome from "./pages/Welcome";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import AuthenticationLayout from "./ui/AuthenticationLayout";
 import SignIn from "./pages/SignIn";
-import { QueryClient, QueryClientProvider } from "react-query";
 // import { ReactQueryDevtools } from "react-query/devtools";
-import { AuthProvider } from "./context/authContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import GoogleSignin from "./ui/GoogleSignin";
 import AdminLayout from "./ui/AdminLayout";
@@ -20,6 +20,9 @@ import SellerLayout from "./ui/SellerLayout";
 import SellerProducts from "./pages/Seller/Products";
 import DeleteProductsPage from "./pages/admin/DeleteProductsPage";
 import UpdateProductsPage from "./pages/admin/UpdateProductsPage";
+import ProductPage from "./pages/ProductPage";
+import Checkout from "./pages/Checkout";
+import ShippingForm from "./pages/ShippingForm";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -49,6 +52,11 @@ export default function App() {
                                 element={<GoogleSignin />}
                             />
                         </Route>
+
+                        <Route path="/product/:id" element={<ProductPage />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/shipping" element={<ShippingForm />} />
+
                         <Route
                             path="/admin"
                             element={
