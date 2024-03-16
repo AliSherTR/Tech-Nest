@@ -7,13 +7,14 @@ import Hero from "../ui/Hero";
 import ProductCard from "../ui/ProductCard";
 import { getAllProducts } from "../utils/helpers";
 import Slider from "react-slick";
-import LoadingIndicator from "../ui/LoadingIndicator";
-// import Collection from "../ui/Collection";
-import Textwithimage from "../ui/TextWithImage";
-import Faqs from "../ui/Faqs";
-// import Shipping from "../ui/Shipping";
+import Collection from "../ui/Collection";
+import TopProduct from "../ui/TopProduct";
+import PopularProduct from "../ui/PopularProduct";
+import { useContext } from "react";
+import { CartContext } from "../context/cartContext";
 
 export default function Home() {
+    const { addItemToCart } = useContext(CartContext);
     const settings = {
         dots: true,
         infinite: false,
@@ -58,34 +59,92 @@ export default function Home() {
             <Header />
             <Hero />
             <div className="m-auto max-w-[1200px]">
-                <Slider {...settings}></Slider>
+                <Slider {...settings}>
+                    <Collection
+                        name="Mobile"
+                        image="https://www.bell.ca/Styles/images/img-banner_iPhone15_Pro_Alt-hero.png"
+                    />
+                    <Collection
+                        name="Computer"
+                        image="https://www.computerhope.com/jargon/c/computer-types.png"
+                    />
+                    <Collection
+                        name="Ipad"
+                        image="https://www.stmgoods.com/wp-content/uploads/STM22-Studio-MultiFit-iPad-Air-5th-gen-Pro-3rd-gen-Blue-Quarter-Front.png"
+                    />
+
+                    <Collection
+                        name="HeadPhone"
+                        image="https://rhizmall.pk/wp-content/uploads/2022/12/ezgif.com-gif-maker-50.webp"
+                    />
+                    <Collection
+                        name="Accessories"
+                        image="https://5.imimg.com/data5/SELLER/Default/2022/8/OO/SC/AZ/155817538/laptop-and-computer-accessories-500x500.png"
+                    />
+                </Slider>
 
                 <h3 className="mt-20 mb-10 text-center text-3xl font-bold tracking-tight md:text-5xl">
                     Our Products
                 </h3>
 
-                <div className="mb-3 grid grid-cols-4 gap-4">
-                    {isLoading && <LoadingIndicator />}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {isLoading && <p>Loading........</p>}
                     {products?.map((product) => {
                         return (
                             <ProductCard
                                 key={product._id}
                                 image={`http://localhost:8000/${product.image}`}
                                 price={product.price}
+                                description={product.description}
                                 name={product.name}
                                 id={product._id}
+                                onclick={() => addItemToCart(product)}
                             />
                         );
                     })}
                 </div>
-
-                <div>
-                    <Textwithimage />
-                </div>
-                <div>
-                    <Faqs />
-                </div>
             </div>
+            <div className="relative my-5">
+                <a
+                    href="https://example.com/main-banner"
+                    className="block w-full "
+                >
+                    <img
+                        src="https://www.easternlogica.com/wp-content/uploads/2023/05/Buy-Computer-Laptop-Accessories.png"
+                        alt="Main Banner"
+                        className="w-full  h-3/6 "
+                    />
+                </a>
+            </div>
+
+            <div className="m-auto max-w-[1200px]">
+                <PopularProduct />
+
+                <div className="md:flex justify-between ">
+                    <a
+                        href="#"
+                        className="w-1/2 p-4  text-white text-center  transition duration-300"
+                    >
+                        <img
+                            src="https://img.freepik.com/free-vector/realism-hand-drawn-horizontal-banner_23-2150203461.jpg"
+                            alt="Product Image"
+                            className=" w-full h-full object-cover"
+                        />
+                    </a>
+                    <a
+                        href="#"
+                        className="w-1/2 p-4  text-white text-center duration-300"
+                    >
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6q11vT3PfuLQKHeFIQGyBGrIFyXSOhp_ENRO2FMG-iVCdIk4OFoxvvFnMD7OUX3MNsGc&usqp=CAU"
+                            alt="Product Image"
+                            className=" h-full w-full object-cover"
+                        />
+                    </a>
+                </div>
+                <TopProduct />
+            </div>
+
             <Footer />
         </>
     );

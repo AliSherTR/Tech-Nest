@@ -1,17 +1,58 @@
+import LoadingIndicator from "../ui/LoadingIndicator";
 import { useState } from "react";
 import Header from "../ui/Header";
 import Footer from "../ui/Footer";
 import { Navigate, useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { FaHeart } from "react-icons/fa";
+import Faqs from "../ui/Faqs";
+
+import Slider from "react-slick";
+import { BASE_URL, getAllProducts } from "../utils/helpers";
 import axios from "axios";
-import { BASE_URL } from "../utils/helpers";
-import LoadingIndicator from "../ui/LoadingIndicator";
+import { useQuery } from "react-query";
 import toast from "react-hot-toast";
 
-const ProductPage = () => {
-    const { id } = useParams();
-    console.log(id);
+import ProductCard from "../ui/ProductCard";
 
+const ProductPage = () => {
+    const settings = {
+        dots: true,
+        infinite: false,
+        speed: 300,
+        autoplay: true,
+        pauseOnFocus: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        initialSlide: 0,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                    dots: true,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    initialSlide: 2,
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
+    };
+
+    const { id } = useParams();
     const { isLoading, data: product } = useQuery({
         queryKey: ["product", id],
         queryFn: async () => {
@@ -23,16 +64,17 @@ const ProductPage = () => {
             <Navigate to={"/admin/products"} />;
         },
     });
-    console.log(product);
-
-    const [images, setImages] = useState({
-        img1: "https://asia-exstatic-vivofs.vivo.com/PSee2l50xoirPK7y/1699615204070/a923ea0d9dc9c164891bada74f533c12.png",
-        img2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzWgx_eHL6OYZEeZK_yHKuwfNzLsLXNIbQVF78gxRq2pda1UIOC1ArDjHb3t0zMEcGgJk&usqp=CAU",
-        img3: "https://ph-live-01.slatic.net/p/0b6867065ddda3bd6fb0e0a5d4454ccb.jpg",
-        img4: "https://manilashaker.com/wp-content/uploads/2023/07/ready-to-store-more-with-vivo-y36.jpg",
+    const { data: products } = useQuery({
+        queryKey: ["products"],
+        queryFn: getAllProducts,
     });
-
     const [amount, setAmount] = useState(1);
+
+    const [activeTab, setActiveTab] = useState("dashboard");
+
+    const handleTabClick = (tabId) => {
+        setActiveTab(tabId);
+    };
 
     if (isLoading) return <LoadingIndicator />;
 
@@ -40,49 +82,132 @@ const ProductPage = () => {
         <>
             <Header />
 
-            <div className="flex flex-col justify-between lg:flex-row gap-16 lg:items-center">
-                <div className="flex flex-col gap-6 lg:w-2/4">
-                    <img
-                        src={`http://localhost:8000/${product.image}`}
-                        alt=""
-                        className="w-full h-full aspect-square object-cover rounded-xl"
-                    />
-                </div>
-                {/* ABOUT */}
-                <div className="flex flex-col gap-4 lg:w-2/4">
-                    <div>
-                        <span className=" text-teal-600 font-semibold">
+            <div className="container mx-auto px-4 py-8  max-w-[1200px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="md:order-1">
+                        <img
+                            src={`http://localhost:8000/${product.image}`}
+                            alt="Product Image"
+                            className="w-full rounded-lg shadow-md"
+                        />
+                    </div>
+
+                    <div className="md:order-2 mt-10 ">
+                        <h2 className="text-2xl font-bold mb-4">
+                            {product.name}
+                        </h2>
+                        <span className=" text-teal-600 font-semibold ">
                             {product.brand}
                         </span>
-                        <h1 className="text-3xl font-bold">{product.name}</h1>
-                    </div>
-                    <p className="text-gray-700">{product.description}</p>
-                    <h6 className="text-2xl font-semibold">
-                        $ {product.price}
-                    </h6>
-                    <div className="flex flex-col md:flex-row md:items-center gap-12">
-                        <div className="flex flex-row items-center">
-                            <button
-                                className="bg-gray-200 py-2 px-5 rounded-lg text-teal-800 text-3xl"
-                                onClick={() => setAmount((prev) => prev - 1)}
-                            >
-                                -
-                            </button>
-                            <span className="py-4 px-6 rounded-lg">
-                                {amount}
-                            </span>
-                            <button
-                                className="bg-gray-200 py-2 px-4 rounded-lg text-teal-800 text-3xl"
-                                onClick={() => setAmount((prev) => prev + 1)}
-                            >
-                                +
-                            </button>
+                        <p className="text-gray-700 mb-4 mt-2 line-clamp-4 ">
+                            {product.description}
+                        </p>
+                        <div className="flex flex-col md:flex-row md:items-center gap-12 mb-4">
+                            <div className="flex flex-row items-center">
+                                <button
+                                    className="bg-gray-200 pb-2 px-5 rounded-lg text-teal-800 text-3xl"
+                                    onClick={() =>
+                                        setAmount((prev) => prev - 1)
+                                    }
+                                >
+                                    -
+                                </button>
+                                <span className="py-4 px-6 rounded-lg">
+                                    {amount}
+                                </span>
+                                <button
+                                    className="bg-gray-200 pb-2 px-4 rounded-lg text-teal-800 text-3xl"
+                                    onClick={() =>
+                                        setAmount((prev) => prev + 1)
+                                    }
+                                >
+                                    +
+                                </button>
+                            </div>
                         </div>
-                        <button className="bg-teal-400 text-white font-semibold py-3 px-16 rounded-xl h-full">
-                            Add to Cart
-                        </button>
+                        <p className="text-2xl font-bold mb-4">
+                            {product.price} Rs
+                        </p>
+                        <div className="flex gap-2">
+                            <div className="flex-1">
+                                <button className="bg-teal-500 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded w-2/4">
+                                    Add to Cart
+                                </button>
+                            </div>
+                            <div>
+                                <FaHeart
+                                    fill="red"
+                                    size={"30px"}
+                                    className="absolute right-0 m-2 text-2xl transition duration-200 cursor-pointer text-darkgreen w-2/4"
+                                />
+                            </div>
+                        </div>
+                        <div className="mt-5">
+                            <p className=" font-bold">
+                                Category:{" "}
+                                <span className=" font-normal">
+                                    {product.category}
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="max-w-[1200px] mx-auto mb-20">
+                <div className="border-b border-gray-200 dark:border-gray-700 mb-4">
+                    <ul className="flex flex-wrap -mb-px p-4" role="tablist">
+                        <li className="mr-2" role="presentation">
+                            <button
+                                className={`p-2 bg-black text-white tab-button ${
+                                    activeTab === "Description" ? "active" : ""
+                                }`}
+                                onClick={() => handleTabClick("Description")}
+                                role="tab"
+                                aria-controls="Description"
+                                aria-selected={activeTab === "Description"}
+                            >
+                                Description
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div id="myTabContent">
+                    <div
+                        className={`bg-gray-50 p-4 rounded-lg dark:bg-gray-800 ${
+                            activeTab !== "Description" ? "hidden" : ""
+                        }`}
+                        id="Description"
+                        role="tabpanel"
+                        aria-labelledby="profile-tab"
+                    >
+                        <p className="text-gray-500 dark:text-gray-400 text-sm">
+                            {product.description}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div className=" max-w-[1200px] m-auto ">
+                <div className="mb-5">
+                    <h2 className="font-bold text-4xl">Related Products</h2>
+                </div>
+                <div className="slider-container">
+                    <Slider {...settings}>
+                        {products?.map((product) => (
+                            <ProductCard
+                                key={product._id}
+                                name={product.name}
+                                image={`http://localhost:8000/${product.image}`}
+                                price={product.price}
+                                category={product.category}
+                            />
+                        ))}
+                    </Slider>
+                </div>
+            </div>
+            <div className="container mx-auto px-4 py-8  max-w-[1200px]">
+                <Faqs />
             </div>
             <Footer />
         </>

@@ -23,6 +23,7 @@ import UpdateProductsPage from "./pages/admin/UpdateProductsPage";
 import ProductPage from "./pages/ProductPage";
 import Checkout from "./pages/Checkout";
 import ShippingForm from "./pages/ShippingForm";
+import CartPage from "./pages/CartPage";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -54,6 +55,7 @@ export default function App() {
                         </Route>
 
                         <Route path="/product/:id" element={<ProductPage />} />
+                        <Route path="/cart" element={<CartPage />} />
                         <Route path="/checkout" element={<Checkout />} />
                         <Route path="/shipping" element={<ShippingForm />} />
 

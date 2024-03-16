@@ -9,10 +9,16 @@ export default function ShippingForm() {
     return (
         <div className=" max-w-6xl m-auto">
             <Link
-                to={"/"}
-                className=" py-3 px-3 border shadow-sm rounded-md mt-5 inline-block"
+                to="/"
+                className="flex font-semibold text-indigo-600 text-sm mt-10"
             >
-                Continue Shopping &rarr;
+                <svg
+                    className="fill-current mr-2 text-indigo-600 w-4"
+                    viewBox="0 0 448 512"
+                >
+                    <path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
+                </svg>
+                Continue Shopping
             </Link>
 
             <div className=" flex gap-7 mt-4">
@@ -95,7 +101,7 @@ export default function ShippingForm() {
                         </div>
                     </div>
                 </div>
-                <div className="p-8 bg-gray-400 basis-4/12">
+                <div className="p-8 bg-gray-200 basis-4/12">
                     <h3 className=" text-lg font-semibold mb-2 ">
                         Cart Summary
                     </h3>
@@ -115,7 +121,7 @@ export default function ShippingForm() {
                             </div>
                         );
                     })}
-                    <hr />
+                    <hr className=" bg-gray-800 h-[1.5px]" />
                     <span className="block mb-3 mt-4 text-right text-sm ms-auto font-semibold">
                         Delivery Charges: 200 Rs
                     </span>
@@ -124,7 +130,8 @@ export default function ShippingForm() {
                     </span>
                     <hr />
                     <span className="block mb-3 mt-4 text-right text-sm ms-auto font-semibold">
-                        Sub Total: {totalAmount + 200} Rs
+                        <span className=" text-teal-500">Sub Total:</span>{" "}
+                        {totalAmount + 200} Rs
                     </span>
                 </div>
             </div>
