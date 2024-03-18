@@ -1,51 +1,35 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { CartContext } from "../context/cartContext";
 
-const products = [
-    {
-        image: "https://appleshop.com.pk/wp-content/uploads/2023/06/mba15-midnight-gallery1.jpeg",
-        name: "Apple MacBook Pro 2016",
-        quantity: 3,
-        pricePerItem: 37000,
-    },
-    {
-        image: "https://appleshop.com.pk/wp-content/uploads/2023/06/mba15-midnight-gallery1.jpeg",
-        name: "Product 2",
-        quantity: 5,
-        pricePerItem: 2500,
-    },
-    {
-        image: "https://appleshop.com.pk/wp-content/uploads/2023/06/mba15-midnight-gallery1.jpeg",
-        name: "Product 3",
-        quantity: 1,
-        pricePerItem: 1500,
-    },
-    {
-        image: "https://appleshop.com.pk/wp-content/uploads/2023/06/mba15-midnight-gallery1.jpeg",
-        name: "Product 4",
-        quantity: 10,
-        pricePerItem: 5000,
-    },
-];
 export default function Checkout() {
+    const { cartItems, getTotalCartPrice } = useContext(CartContext);
+    const totalPrice = getTotalCartPrice();
     return (
         <div className=" max-w-screen-lg m-auto p-5">
             <Link
-                to={"/"}
-                className=" py-3 px-3 border shadow-sm rounded-md mt-5 inline-block"
+                to="/"
+                className="flex font-semibold text-indigo-600 text-sm mt-10"
             >
-                Continue Shopping &rarr;
+                <svg
+                    className="fill-current mr-2 text-indigo-600 w-4"
+                    viewBox="0 0 448 512"
+                >
+                    <path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
+                </svg>
+                Continue Shopping
             </Link>
             <h1 className="mt-5 text-3xl font-bold tracking-tight md:text-5xl mb-5">
                 Checkout
             </h1>
             <div className=" py-1">
-                {products.map((product, i) => {
+                {cartItems.map((product) => {
                     return (
-                        <>
-                            <div className="grid grid-cols-2" key={i}>
+                        <div key={product.id}>
+                            <div className="grid grid-cols-2">
                                 <div className="flex gap-3 flex-col md:flex-row">
                                     <img
-                                        src={product.image}
+                                        src={`http://localhost:8000/${product.image}`}
                                         alt=""
                                         className="w-1/4"
                                     />
@@ -67,29 +51,34 @@ export default function Checkout() {
                                     </div>
                                 </div>
                                 <p className="self-center ms-auto">
-                                    Price Per Item: {product.pricePerItem}
+                                    Price: {product.price * product.quantity} Rs
                                 </p>
                             </div>
-                        </>
+                        </div>
                     );
                 })}
             </div>
             <div className=" py-2 px-4 border rounded-md mb-3 ">
                 <p className=" flex justify-between mb-3">
-                    <span>Total Amount:</span> <span>20000</span>
+                    <span>Total Amount:</span> <span>{totalPrice} Rs</span>
                 </p>
 
                 <p className=" flex justify-between mb-3">
-                    <span>Shipping Cost:</span> <span> 200</span>
+                    <span>Standard Shipping Cost:</span> <span> 100 Rs</span>
                 </p>
 
                 <p className=" flex justify-between mb-3">
                     <span>Sub Total:</span>{" "}
-                    <span className=" font-semibold"> 20200</span>
+                    <span className=" font-semibold">
+                        {" "}
+                        {totalPrice + 100} Rs
+                    </span>
                 </p>
             </div>
             <div className=" px-3 flex justify-between">
-                <Link className=" px-3 py-2">&larr; Back to Cart</Link>
+                <Link to="/cart" className=" px-3 py-2">
+                    &larr; Back to Cart
+                </Link>
                 <Link
                     to={{
                         pathname: "/shipping",

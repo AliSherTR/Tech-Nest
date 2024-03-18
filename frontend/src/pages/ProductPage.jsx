@@ -1,20 +1,21 @@
-import LoadingIndicator from "../ui/LoadingIndicator";
-import { useState } from "react";
-import Header from "../ui/Header";
-import Footer from "../ui/Footer";
+import { useContext, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
+import { useQuery } from "react-query";
+import { BASE_URL, getAllProducts } from "../utils/helpers";
+import LoadingIndicator from "../ui/LoadingIndicator";
+import toast from "react-hot-toast";
+import Slider from "react-slick";
+import axios from "axios";
+import Header from "../ui/Header";
+import Footer from "../ui/Footer";
 import Faqs from "../ui/Faqs";
 
-import Slider from "react-slick";
-import { BASE_URL, getAllProducts } from "../utils/helpers";
-import axios from "axios";
-import { useQuery } from "react-query";
-import toast from "react-hot-toast";
-
 import ProductCard from "../ui/ProductCard";
+import { CartContext } from "../context/cartContext";
 
 const ProductPage = () => {
+    const { addItemToCart } = useContext(CartContext);
     const settings = {
         dots: true,
         infinite: false,
@@ -130,7 +131,18 @@ const ProductPage = () => {
                         </p>
                         <div className="flex gap-2">
                             <div className="flex-1">
-                                <button className="bg-teal-500 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded w-2/4">
+                                <button
+                                    className="bg-teal-500 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded w-2/4"
+                                    onClick={() =>
+                                        addItemToCart({
+                                            name: product.name,
+                                            id: product._id,
+                                            quantity: amount,
+                                            image: product.image,
+                                            price: product.price,
+                                        })
+                                    }
+                                >
                                     Add to Cart
                                 </button>
                             </div>

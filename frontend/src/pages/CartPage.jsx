@@ -3,12 +3,28 @@ import Header from "../ui/Header";
 import Footer from "../ui/Footer";
 import { CartContext } from "../context/cartContext";
 import { Link } from "react-router-dom";
+import EmptyCartUI from "../ui/EmptyCartUI";
+
 export default function CartPage() {
-    const { cartItems, getTotalCartPrice, removeItemFromCart } =
-        useContext(CartContext);
+    const {
+        cartItems,
+        getTotalCartPrice,
+        removeItemFromCart,
+        updateItemQuantity,
+    } = useContext(CartContext);
+
     const totalPrice = getTotalCartPrice();
 
-    if (!cartItems.length) return <p>Fuck YOu</p>;
+    const incrementQuantity = (itemId) => {
+        updateItemQuantity(itemId, 1); // Increment quantity by 1
+    };
+
+    const decrementQuantity = (itemId) => {
+        // Decrement quantity by 1, remove item if quantity becomes 0
+        updateItemQuantity(itemId, -1);
+    };
+
+    if (!cartItems.length) return <EmptyCartUI />;
 
     return (
         <>
@@ -39,16 +55,16 @@ export default function CartPage() {
                                 Total
                             </h3>
                         </div>
-                        {cartItems.map((item, i) => {
+                        {cartItems.map((item, index) => {
                             return (
-                                <div key={i}>
+                                <div key={index}>
                                     <div className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
                                         <div className="flex w-2/5">
                                             <div className="w-20">
                                                 <img
                                                     className="h-24"
                                                     src={`http://localhost:8000/${item.image}`}
-                                                    alt=""
+                                                    alt={item.name}
                                                 />
                                             </div>
                                             <div className="flex flex-col justify-between ml-4 flex-grow">
@@ -61,7 +77,7 @@ export default function CartPage() {
                                                 <button
                                                     onClick={() =>
                                                         removeItemFromCart(
-                                                            item._id
+                                                            item.id
                                                         )
                                                     }
                                                     className="font-semibold hover:text-red-500 text-gray-500 text-xs text-left"
@@ -73,9 +89,15 @@ export default function CartPage() {
                                         <div className="flex justify-center w-1/5">
                                             <div className="flex flex-row items-center">
                                                 <button
-                                                    className=" pb-2  rounded-lg text-teal-800 text-3xl"
+                                                    className="pb-2 rounded-lg text-teal-800 text-3xl"
                                                     onClick={() =>
-                                                        item.quantity - 1
+                                                        item.quantity === 0
+                                                            ? removeItemFromCart(
+                                                                  item.id
+                                                              )
+                                                            : decrementQuantity(
+                                                                  item.id
+                                                              )
                                                     }
                                                 >
                                                     -
@@ -84,9 +106,11 @@ export default function CartPage() {
                                                     {item.quantity}
                                                 </span>
                                                 <button
-                                                    className=" pb-2  rounded-lg text-teal-800 text-3xl"
+                                                    className="pb-2 rounded-lg text-teal-800 text-3xl"
                                                     onClick={() =>
-                                                        item.quantity + 1
+                                                        incrementQuantity(
+                                                            item.id
+                                                        )
                                                     }
                                                 >
                                                     +
@@ -94,11 +118,10 @@ export default function CartPage() {
                                             </div>
                                         </div>
                                         <span className="text-center w-1/5 font-semibold text-sm">
-                                            {item.pricePerItem} Rs
+                                            {item.price} Rs
                                         </span>
                                         <span className="text-center w-1/5 font-semibold text-sm">
-                                            {item.quantity * item.pricePerItem}{" "}
-                                            Rs
+                                            {item.quantity * item.price} Rs
                                         </span>
                                     </div>
                                 </div>
@@ -136,7 +159,7 @@ export default function CartPage() {
                                 Shipping
                             </label>
                             <select className="block p-2 text-gray-600 w-full text-sm">
-                                <option>Standard shipping - 100.00 Rs</option>
+                                <option>Standard shipping - 200.00 Rs</option>
                             </select>
                         </div>
 
@@ -144,7 +167,7 @@ export default function CartPage() {
                         <div className="border-t mt-8">
                             <div className="flex font-semibold justify-between py-6 text-sm uppercase">
                                 <span>Total cost</span>
-                                <span>{totalPrice} Rs</span>
+                                <span>{totalPrice + 200} Rs</span>
                             </div>
                             <Link
                                 to={"/checkout"}

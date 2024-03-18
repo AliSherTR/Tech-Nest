@@ -104,10 +104,17 @@ exports.getUser = asyncHandler(async (req, res, next) => {
         return;
     }
 
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+    });
+
     res.status(200).json({
         status: "success",
+
         username: user.username,
-        role: user.role,
         email: user.email,
+        role: user.role,
+        token: token,
+        id: user._id,
     });
 });

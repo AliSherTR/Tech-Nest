@@ -15,6 +15,7 @@ import { CartContext } from "../context/cartContext";
 
 export default function Home() {
     const { addItemToCart } = useContext(CartContext);
+
     const settings = {
         dots: true,
         infinite: false,
@@ -98,7 +99,15 @@ export default function Home() {
                                 description={product.description}
                                 name={product.name}
                                 id={product._id}
-                                onclick={() => addItemToCart(product)}
+                                onclick={() =>
+                                    addItemToCart({
+                                        name: product.name,
+                                        id: product._id,
+                                        quantity: 1,
+                                        image: product.image,
+                                        price: product.price,
+                                    })
+                                }
                             />
                         );
                     })}

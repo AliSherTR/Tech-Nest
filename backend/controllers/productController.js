@@ -106,7 +106,6 @@ exports.updateProduct = asyncHandler(async (req, res) => {
         userId,
         userName,
     } = req.body;
-    console.log(req.body);
     const { id } = req.params;
     let image;
     if (req.file) {

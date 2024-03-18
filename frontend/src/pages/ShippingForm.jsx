@@ -1,13 +1,65 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../context/cartContext";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../utils/helpers";
+import axios from "axios";
+import LoadingIndicator from "../ui/LoadingIndicator";
 
 export default function ShippingForm() {
     const { getTotalCartPrice, cartItems } = useContext(CartContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        address: "",
+        phone: null,
+        email: "",
+        city: "",
+        zipCode: null,
+    });
+
     const totalAmount = getTotalCartPrice();
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleCheckout = async () => {
+        try {
+            setIsLoading(true);
+            const response = await axios.post(
+                `${BASE_URL}/checkout`,
+                {
+                    ...formData,
+                    cartItems: cartItems,
+                    total: totalAmount,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer sk_test_51OvOeTItkhd81wTnMUtNUx1QMbMOfHMtW0LQVG339rihcSTxFUx9jTbkaYXI676PS1gZ3h2oEVDr2tvfhwxzTrRj00cW1gka7g`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (response.status === 200 && response.data.url) {
+                setIsLoading(false);
+                window.location = response.data.url;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div className=" max-w-6xl m-auto">
+            {isLoading && (
+                <div className=" absolute h-full w-full inset-0  modal-background flex items-center justify-center">
+                    <LoadingIndicator />
+                </div>
+            )}
+
             <Link
                 to="/"
                 className="flex font-semibold text-indigo-600 text-sm mt-10"
@@ -33,8 +85,10 @@ export default function ShippingForm() {
                         <input
                             type="email"
                             id="email"
+                            name="email"
                             placeholder="Email Address"
                             className=" w-full border px-3 py-4 rounded-md"
+                            onChange={handleInputChange}
                         />
 
                         <h1 className=" text-sm font-semibold uppercase mt-5">
@@ -44,35 +98,47 @@ export default function ShippingForm() {
                             <input
                                 type="text"
                                 placeholder="First Name"
+                                name="firstName"
                                 className=" flex-1 border px-3 py-4 rounded-md"
+                                onChange={handleInputChange}
                             />
                             <input
                                 type="text"
                                 placeholder="Last Name"
+                                name="lastName"
                                 className=" flex-1 border px-3 py-4 rounded-md"
+                                onChange={handleInputChange}
                             />
                         </div>
                         <input
                             type="number"
                             placeholder="Phone Number"
+                            name="phone"
                             className=" w-full block mb-3 border px-3 py-4 rounded-md"
+                            onChange={handleInputChange}
                         />
                         <input
                             type="text"
                             placeholder="Address"
+                            name="address"
                             className=" w-full block mb-3 border px-3 py-4 rounded-md"
+                            onChange={handleInputChange}
                         />
 
                         <div className=" flex mt-4 gap-3 mb-3">
                             <input
                                 type="text"
                                 placeholder="City"
+                                name="city"
                                 className=" flex-1 border px-3 py-4 rounded-md"
+                                onChange={handleInputChange}
                             />
                             <input
                                 type="number"
                                 placeholder="Zip Code"
+                                name="zipCode"
                                 className=" flex-1 border px-3 py-4 rounded-md"
+                                onChange={handleInputChange}
                             />
                         </div>
                     </form>
@@ -88,13 +154,16 @@ export default function ShippingForm() {
                                     className=" w-1/2 block m-auto"
                                 />
                             </Link>
-                            <Link className=" px-3 py-3 flex-1 border rounded-sm flex items-center justify-center ">
+                            <div
+                                onClick={handleCheckout}
+                                className=" cursor-pointer px-3 py-3 flex-1 border rounded-sm flex items-center justify-center "
+                            >
                                 <img
                                     src="https://www.nicepng.com/png/detail/392-3926074_credit-or-debit-card-visa-mastercard-logo-hd.png"
                                     alt=""
                                     className=" w-1/2 block m-auto"
                                 />
-                            </Link>
+                            </div>
                             <Link className=" px-3 py-3 flex-1 border rounded-sm text-center flex items-center justify-center ">
                                 CASH ON DELIVERY
                             </Link>
@@ -110,13 +179,11 @@ export default function ShippingForm() {
                         return (
                             <div key={i}>
                                 <div className=" flex justify-between text-sm text-gray-800 mb-6 font-semibold">
-                                    <span>
+                                    <span className=" line-clamp-1">
                                         {" "}
                                         <span>{i + 1}</span> - {item.name}
                                     </span>
-                                    <span>
-                                        {item.pricePerItem * item.quantity} Rs
-                                    </span>
+                                    <span>{item.price * item.quantity} Rs</span>
                                 </div>
                             </div>
                         );

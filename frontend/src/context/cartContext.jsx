@@ -13,12 +13,23 @@ export const CartProvider = ({ children }) => {
         toast.success("Added to cart");
     };
     const removeItemFromCart = (itemId) => {
-        setCartItems(cartItems.filter((item) => item._id !== itemId));
+        setCartItems(cartItems.filter((item) => item.id !== itemId));
     };
+
+    const updateItemQuantity = (itemId, quantityChange) => {
+        setCartItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === itemId
+                    ? { ...item, quantity: item.quantity + quantityChange }
+                    : item
+            )
+        );
+    };
+
     const getTotalCartPrice = () => {
         // Calculate the total cart price
         const total = cartItems.reduce((acc, item) => {
-            return acc + item.quantity * item.pricePerItem;
+            return acc + item.quantity * item.price;
         }, 0);
 
         return total;
@@ -36,6 +47,7 @@ export const CartProvider = ({ children }) => {
                 removeItemFromCart,
                 clearCart,
                 getTotalCartPrice,
+                updateItemQuantity,
             }}
         >
             {children}
