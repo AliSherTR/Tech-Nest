@@ -12,7 +12,11 @@ export default function Product({
     return (
         <div className="bg-white shadow-md rounded-lg overflow-hidden transition duration-200 hover:translate-y-0.5 hover:shadow-lg relative h-full">
             <Link to={`/product/${id}`}>
-                <img src={image} alt="Product Image" className="w-full h-64" />
+                <img
+                    src={image}
+                    alt="Product Image"
+                    className=" w-60 h-60 m-auto"
+                />
                 <div className="p-4 ">
                     <h2 className="font-semibold text-lg mb-2 text-teal-500 line-clamp-1">
                         {name}
