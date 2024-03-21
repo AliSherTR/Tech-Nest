@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useAuth } from "../context/authContext";
 import Dropdown from "./Dropdown";
@@ -17,17 +17,20 @@ const Header = () => {
                 <nav>
                     <ul className="flex items-center justify-center font-semibold">
                         <li className="relative group px-3 py-2">
-                            <a
-                                href="#"
-                                className="text-teal-400 hover:opacity-50 cursor-pointer"
+                            <NavLink
+                                to="/"
+                                className=" hover:opacity-50 cursor-pointer"
                             >
                                 Home
-                            </a>
+                            </NavLink>
                         </li>
                         <li className="relative group px-3 py-2">
-                            <button className="hover:opacity-50 cursor-pointer">
+                            <NavLink
+                                to="/collections"
+                                className="hover:opacity-50 cursor-pointer"
+                            >
                                 Products
-                            </button>
+                            </NavLink>
                             <div className="absolute top-0 -left-48 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[560px] transform">
                                 <div className="relative top-6 p-6 bg-white rounded-xl shadow-xl w-full">
                                     <div className="w-10 h-10 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[12rem] duration-500 ease-in-out rounded-sm"></div>
@@ -166,7 +169,10 @@ const Header = () => {
                             </div>
                         </li>
                         <li className="relative group px-3 py-2">
-                            <button className="hover:opacity-50 cursor-pointer">
+                            <button
+                                to=""
+                                className="hover:opacity-50 cursor-pointer"
+                            >
                                 Catagories
                             </button>
                             <div className="absolute top-0 -left-2 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[260px] transform">
@@ -178,28 +184,29 @@ const Header = () => {
                                         </p>
                                         <ul className="mt-3 text-[15px]">
                                             <li>
-                                                <a
+                                                <NavLink
+                                                    to="/collections"
                                                     href="#"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Mobile
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="#"
+                                                <NavLink
+                                                    to="/collections"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Laptop
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="#"
+                                                <NavLink
+                                                    to="/collections"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Ipad
-                                                </a>
+                                                </NavLink>
                                             </li>
                                         </ul>
                                     </div>
@@ -208,20 +215,20 @@ const Header = () => {
                         </li>
 
                         <li className="relative group px-3 py-2">
-                            <a
-                                href="#"
+                            <NavLink
+                                to="/contact-us"
                                 className="hover:text-teal-500 cursor-pointer  "
                             >
                                 Contact Us
-                            </a>
+                            </NavLink>
                         </li>
                         <li className="relative group px-3 py-2">
-                            <a
-                                href="#"
+                            <NavLink
+                                to="/about-us"
                                 className=" hover:hover:text-teal-500 cursor-pointer"
                             >
                                 About Us
-                            </a>
+                            </NavLink>
                         </li>
                         <li className="relative group px-3 py-2">
                             <button className="hover:opacity-50 cursor-default">

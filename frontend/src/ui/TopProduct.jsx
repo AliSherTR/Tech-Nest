@@ -5,7 +5,7 @@ export default function TopProduct({
     children,
     image,
     name,
-    category,
+    description,
     price,
 }) {
     const settings = {
@@ -44,15 +44,17 @@ export default function TopProduct({
     };
 
     return (
-        <div className="m-auto max-w-[1200px] my-6 p-6 gap-3">
-            <h2 className=" text-3xl font-bold pb-5 ">Sale Products</h2>
+        <div className="m-auto max-w-[1200px] my-6 p-6 gap-3 ">
+            <h2 className=" text-3xl pb-1">Sale Products</h2>
+
+            <div className="flex items-center my-4">
+                <div className="w-full h-px bg-black"></div>
+            </div>
             <Slider {...settings}>
-                <div className=" slider-container">
-                    <div className="bg-white shadow-md rounded-lg overflow-hidden transition duration-200 hover:translate-y-0.5 hover:shadow-lg relative h-full max-w-md w-[300px]">
+                <div className="border w-full h-full">
+                    <div className=" relative border">
                         <img
-                            src={
-                                "https://images.samsung.com/is/image/samsung/p6pim/bd/sm-a057flvhbkd/gallery/bd-galaxy-a05s-sm-a057-sm-a057flvhbkd-thumb-539556309?$344_344_PNG$"
-                            }
+                            src="https://plutonstore.com/wp-content/uploads/2022/09/iphone_14_pro_max_gold_pdp_image_position-1a_avail__en-in-removebg-preview.png"
                             alt="Product Image"
                             className="w-full h-64"
                         />
@@ -63,9 +65,19 @@ export default function TopProduct({
                             <p className="text-gray-700 mb-2 line-clamp-2">
                                 Mobile
                             </p>
-                            <p className="text-gray-900 font-bold">370000</p>
+                            <div className="flex items-center">
+                                <p className="text-gray-500 line-through mr-2 font-bold">
+                                    92000
+                                </p>
+                                <p className=" font-bold text-red-700  text-xl">
+                                    56000
+                                </p>
+                            </div>
                         </div>
                         <div className="p-4">
+                            <span className="inline-block bg-red-500 text-white px-2 py-1 rounded-full uppercase text-xs font-bold tracking-wide top-3 right-2 absolute">
+                                Sale
+                            </span>
                             <FaHeart
                                 fill="red"
                                 size={"20px"}

@@ -25,6 +25,10 @@ import Checkout from "./pages/Checkout";
 import ShippingForm from "./pages/ShippingForm";
 import CartPage from "./pages/CartPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import CollectionPage from "./pages/Collections";
+import Aboutus from "./pages/AboutUs";
+import Contactus from "./pages/ContactUs";
+import Faqs from "./ui/Faqs";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -43,6 +47,20 @@ export default function App() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/welcome" element={<Welcome />} />
+                        <Route path="/about-us" element={<Aboutus />} />
+                        <Route path="/contact-us" element={<Contactus />} />
+                        <Route path="/faqs" element={<Faqs />} />
+                        <Route path="/product/:id" element={<ProductPage />} />
+                        <Route
+                            path="/collections"
+                            element={<CollectionPage />}
+                        />
+                        <Route path="/cart" element={<CartPage />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/shipping" element={<ShippingForm />} />
+                        <Route path="/success" element={<PaymentSuccess />} />
+
+                        {/* AUTH ROUTES  */}
                         <Route
                             path="/authentication"
                             element={<AuthenticationLayout />}
@@ -55,12 +73,7 @@ export default function App() {
                             />
                         </Route>
 
-                        <Route path="/product/:id" element={<ProductPage />} />
-                        <Route path="/cart" element={<CartPage />} />
-                        <Route path="/checkout" element={<Checkout />} />
-                        <Route path="/shipping" element={<ShippingForm />} />
-                        <Route path="/success" element={<PaymentSuccess />} />
-
+                        {/* ADMIN ROUTES */}
                         <Route
                             path="/admin"
                             element={
@@ -88,7 +101,7 @@ export default function App() {
                                 element={<AdminProducts />}
                             />
                         </Route>
-
+                        {/* SELLER ROUTES  */}
                         <Route
                             path="/seller"
                             element={
