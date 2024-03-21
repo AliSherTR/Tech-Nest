@@ -206,15 +206,18 @@ const ProductPage = () => {
                 </div>
                 <div className="slider-container">
                     <Slider {...settings}>
-                        {products?.map((product) => (
-                            <ProductCard
-                                key={product._id}
-                                name={product.name}
-                                image={`http://localhost:8000/${product.image}`}
-                                price={product.price}
-                                category={product.category}
-                            />
-                        ))}
+                        {products?.map(
+                            (item) =>
+                                item.category === product.category && (
+                                    <ProductCard
+                                        key={item._id}
+                                        name={item.name}
+                                        image={`http://localhost:8000/${item.image}`}
+                                        price={item.price}
+                                        category={item.category}
+                                    />
+                                )
+                        )}
                     </Slider>
                 </div>
             </div>

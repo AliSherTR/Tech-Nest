@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -11,6 +11,10 @@ import {
 import ProductCard from "../ui/ProductCard";
 import Header from "../ui/Header";
 import Footer from "../ui/Footer";
+import { useQuery } from "react-query";
+import { getAllProducts } from "../utils/helpers";
+import { CartContext } from "../context/cartContext";
+import { useParams } from "react-router-dom";
 
 const sortOptions = [
     { name: "Most Popular", href: "#", current: true },
@@ -47,6 +51,13 @@ function classNames(...classes) {
 
 export default function CollectionPage() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+    const { addItemToCart } = useContext(CartContext);
+    const { cat } = useParams();
+
+    const { isLoading, data: products } = useQuery({
+        queryKey: ["products"],
+        queryFn: getAllProducts,
+    });
 
     return (
         <>
@@ -211,7 +222,7 @@ export default function CollectionPage() {
                     <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
                             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-                                Collection
+                                {cat?.length ? cat : "Collections"}
                             </h1>
 
                             <div className="flex items-center">
@@ -390,55 +401,59 @@ export default function CollectionPage() {
                                     ))}
                                 </form>
 
-                                {/* Product grid */}
+                                {/* PRODUCT GRID */}
                                 <div className="lg:col-span-3">
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                        <ProductCard
-                                            name="Apple Iphone 15 Pro"
-                                            id={1}
-                                            price={570000}
-                                            Category={"Mobile"}
-                                            image="https://www.cavaraty.com/web/image/product.image/23228/image_1024/Apple%20iPhone%2015%20Pro%20Max%20256GB%20%28Blue%20Titanium%29?unique=7e76289"
-                                        >
-                                            {" "}
-                                        </ProductCard>
-
-                                        <ProductCard
-                                            name="Apple Iphone 14"
-                                            price={370000}
-                                            Category={"Laptop"}
-                                            image="https://assets2.razerzone.com/images/pnx.assets/5af9b83e1a46bac99f7ed80fd498390d/razer-blade-14-p10-500x500.webp"
-                                        />
-                                        <ProductCard
-                                            name="Apple Iphone 14"
-                                            price={370000}
-                                            Category={"Ipad"}
-                                            image="https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/mobility/slim-folio-ipad-keyboard-case/gallery/slim-folio-gallery-1-crayon.png?v=1"
-                                        />
-                                        <ProductCard
-                                            name="Sony Headphones"
-                                            price={27800}
-                                            Category={"Headphone"}
-                                            image="https://www.heavys.com/cdn/shop/files/MonochromaticBlack_Bundle_3DShells_1.png?v=1710541524&width=1445"
-                                        />
-                                        <ProductCard
-                                            name="Audionic High class 3.0"
-                                            price={12500}
-                                            Category={"Speaker"}
-                                            image="https://shoporama.pk/cdn/shop/products/audionic-the-sound-master-default-title-mega-60-2-1-speakers-35754306535580.png?v=1696883435"
-                                        />
-                                        <ProductCard
-                                            name="Galaxy S23 Ultra Lavender 512 GB"
-                                            price={370000}
-                                            Category={"Mobile"}
-                                            image="https://images.samsung.com/is/image/samsung/p6pim/pk/sm-s918bliqmea/gallery/pk-galaxy-s23-s918-452328-sm-s918bliqmea-535503844?$650_519_PNG$"
-                                        />
-                                        <ProductCard
-                                            name="Infinix 40 hot"
-                                            price={27000}
-                                            Category={"Mobile"}
-                                            image="https://images.samsung.com/is/image/samsung/p6pim/pk/2202/gallery/pk-galaxy-a53-5g-a536-sm-a536elbgpkd-531569854?$650_519_PNG$"
-                                        />
+                                        {cat?.length
+                                            ? products
+                                                  ?.filter(
+                                                      (product) =>
+                                                          product.category ===
+                                                          cat
+                                                  )
+                                                  .map((product) => (
+                                                      <ProductCard
+                                                          key={product._id}
+                                                          image={`http://localhost:8000/${product.image}`}
+                                                          price={product.price}
+                                                          description={
+                                                              product.description
+                                                          }
+                                                          name={product.name}
+                                                          id={product._id}
+                                                          onclick={() =>
+                                                              addItemToCart({
+                                                                  name: product.name,
+                                                                  id: product._id,
+                                                                  quantity: 1,
+                                                                  image: product.image,
+                                                                  price: product.price,
+                                                              })
+                                                          }
+                                                      />
+                                                  ))
+                                            : products?.map((product) => (
+                                                  <ProductCard
+                                                      key={product._id}
+                                                      image={`http://localhost:8000/${product.image}`}
+                                                      price={product.price}
+                                                      description={
+                                                          product.description
+                                                      }
+                                                      name={product.name}
+                                                      id={product._id}
+                                                      onclick={() =>
+                                                          addItemToCart({
+                                                              name: product.name,
+                                                              id: product._id,
+                                                              quantity: 1,
+                                                              image: product.image,
+                                                              price: product.price,
+                                                          })
+                                                      }
+                                                  />
+                                              ))}
+                                        {isLoading && <p>Loading........</p>}
                                     </div>
                                 </div>
                             </div>

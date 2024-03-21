@@ -28,7 +28,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import CollectionPage from "./pages/Collections";
 import Aboutus from "./pages/AboutUs";
 import Contactus from "./pages/ContactUs";
-import Faqs from "./ui/Faqs";
+import Faqs from "./pages/Faqs";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -51,8 +51,9 @@ export default function App() {
                         <Route path="/contact-us" element={<Contactus />} />
                         <Route path="/faqs" element={<Faqs />} />
                         <Route path="/product/:id" element={<ProductPage />} />
+                        <Route path="/product" element={<CollectionPage />} />
                         <Route
-                            path="/collections"
+                            path="/collection/:cat"
                             element={<CollectionPage />}
                         />
                         <Route path="/cart" element={<CartPage />} />

@@ -12,6 +12,7 @@ import TopProduct from "../ui/TopProduct";
 import PopularProduct from "../ui/PopularProduct";
 import { useContext } from "react";
 import { CartContext } from "../context/cartContext";
+import HomeShippping from "../ui/HomeShipping";
 
 export default function Home() {
     const { addItemToCart } = useContext(CartContext);
@@ -59,32 +60,39 @@ export default function Home() {
         <>
             <Header />
             <Hero />
+            <HomeShippping />
             <div className="m-auto max-w-[1200px]">
                 <Slider {...settings}>
                     <Collection
                         name="Mobile"
                         image="https://www.bell.ca/Styles/images/img-banner_iPhone15_Pro_Alt-hero.png"
-                    />
-                    <Collection
-                        name="Computer"
-                        image="https://www.computerhope.com/jargon/c/computer-types.png"
-                    />
-                    <Collection
-                        name="Ipad"
-                        image="https://www.stmgoods.com/wp-content/uploads/STM22-Studio-MultiFit-iPad-Air-5th-gen-Pro-3rd-gen-Blue-Quarter-Front.png"
+                        category="mobile"
                     />
 
                     <Collection
-                        name="HeadPhone"
+                        name="Computers and Laptops"
+                        image="https://www.computerhope.com/jargon/c/computer-types.png"
+                        category="laptop"
+                    />
+                    <Collection
+                        name="Tablet"
+                        image="https://www.stmgoods.com/wp-content/uploads/STM22-Studio-MultiFit-iPad-Air-5th-gen-Pro-3rd-gen-Blue-Quarter-Front.png"
+                        category="tablet"
+                    />
+
+                    <Collection
+                        name="Audio"
                         image="https://rhizmall.pk/wp-content/uploads/2022/12/ezgif.com-gif-maker-50.webp"
+                        category="audio"
                     />
                     <Collection
                         name="Accessories"
                         image="https://5.imimg.com/data5/SELLER/Default/2022/8/OO/SC/AZ/155817538/laptop-and-computer-accessories-500x500.png"
+                        category="others"
                     />
                 </Slider>
 
-                <h3 className="mt-20 mb-10 text-center text-3xl font-bold tracking-tight md:text-5xl">
+                <h3 className="mt-20 mb-10 text-3xl font-bold tracking-tight md:text-5xl">
                     Our Products
                 </h3>
 
