@@ -43,7 +43,7 @@ export default function UpdateProductsPage() {
                 description: product.description,
                 price: product.price,
                 category: product.category,
-                discountPrice: product.discountPrice || 0,
+                discountPrice: product.discountPrice,
                 image: product.image,
                 quantity: product.quantity,
             });
@@ -72,6 +72,7 @@ export default function UpdateProductsPage() {
             formDataToSend.append("file", formData.image);
             formDataToSend.append("userId", state.user.id);
             formDataToSend.append("userName", state.user.username);
+            formDataToSend.append("discountPrice", formData.discountPrice);
 
             return axios.put(`${BASE_URL}/products/${id}`, formDataToSend);
         },

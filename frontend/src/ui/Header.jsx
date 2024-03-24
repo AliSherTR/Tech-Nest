@@ -165,44 +165,44 @@ const Header = () => {
                                         </p>
                                         <ul className="mt-3 text-[15px]">
                                             <li>
-                                                <a
-                                                    href="/CollectionPage"
+                                                <NavLink
+                                                    to="/collection/mobile"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Mobile
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="/CollectionPage"
+                                                <NavLink
+                                                    to="/collection/laptop"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Laptop
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="/CollectionPage"
+                                                <NavLink
+                                                    to="/collection/tablet"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Tablets
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="/CollectionPage"
+                                                <NavLink
+                                                    to="/collection/audio"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Audio
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="/CollectionPage"
+                                                <NavLink
+                                                    to="/collection/others"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Accessories
-                                                </a>
+                                                </NavLink>
                                             </li>
                                         </ul>
                                     </div>

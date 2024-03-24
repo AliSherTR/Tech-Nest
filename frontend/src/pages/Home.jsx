@@ -8,11 +8,11 @@ import ProductCard from "../ui/ProductCard";
 import { getAllProducts } from "../utils/helpers";
 import Slider from "react-slick";
 import Collection from "../ui/Collection";
-import TopProduct from "../ui/TopProduct";
 import PopularProduct from "../ui/PopularProduct";
 import { useContext } from "react";
 import { CartContext } from "../context/cartContext";
 import HomeShippping from "../ui/HomeShipping";
+import SalesProduct from "../ui/SalesProduct";
 
 export default function Home() {
     const { addItemToCart } = useContext(CartContext);
@@ -55,6 +55,7 @@ export default function Home() {
         queryKey: ["products"],
         queryFn: getAllProducts,
     });
+    console.log(products);
 
     return (
         <>
@@ -98,27 +99,28 @@ export default function Home() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {isLoading && <p>Loading........</p>}
-                    {products?.map((product) => {
-                        return (
-                            <ProductCard
-                                key={product._id}
-                                image={`http://localhost:8000/${product.image}`}
-                                price={product.price}
-                                description={product.description}
-                                name={product.name}
-                                id={product._id}
-                                onclick={() =>
-                                    addItemToCart({
-                                        name: product.name,
-                                        id: product._id,
-                                        quantity: 1,
-                                        image: product.image,
-                                        price: product.price,
-                                    })
-                                }
-                            />
-                        );
-                    })}
+                    {products?.map(
+                        (product) =>
+                            product.discountPrice === 0 && (
+                                <ProductCard
+                                    key={product._id}
+                                    image={`http://localhost:8000/${product.image}`}
+                                    price={product.price}
+                                    description={product.description}
+                                    name={product.name}
+                                    id={product._id}
+                                    onclick={() =>
+                                        addItemToCart({
+                                            name: product.name,
+                                            id: product._id,
+                                            quantity: 1,
+                                            image: product.image,
+                                            price: product.price,
+                                        })
+                                    }
+                                />
+                            )
+                    )}
                 </div>
             </div>
             <div className="relative my-5">
@@ -159,7 +161,39 @@ export default function Home() {
                         />
                     </a>
                 </div>
-                <TopProduct />
+                <h2 className=" text-3xl pb-1">Sale Products</h2>
+
+                <div className="flex items-center my-4">
+                    <div className="w-full h-px bg-black"></div>
+                </div>
+
+                <Slider {...settings}>
+                    {isLoading && <p>Loading........</p>}
+                    {products?.map((item) =>
+                        item.discountPrice > 0 ? (
+                            <SalesProduct
+                                key={item._id}
+                                id={item._id}
+                                image={item.image}
+                                name={item.name}
+                                category={item.category}
+                                price={item.price}
+                                discountPrice={item.discountPrice}
+                                onclick={() =>
+                                    addItemToCart({
+                                        name: item.name,
+                                        id: item._id,
+                                        quantity: 1,
+                                        image: item.image,
+                                        price: item.price,
+                                    })
+                                }
+                            />
+                        ) : (
+                            ""
+                        )
+                    )}
+                </Slider>
             </div>
 
             <Footer />

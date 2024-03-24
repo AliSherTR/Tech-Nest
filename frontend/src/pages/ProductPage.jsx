@@ -127,7 +127,10 @@ const ProductPage = () => {
                             </div>
                         </div>
                         <p className="text-2xl font-bold mb-4">
-                            {product.price} Rs
+                            {product.discountPrice > 0
+                                ? product.discountPrice
+                                : product.price}{" "}
+                            Rs
                         </p>
                         <div className="flex gap-2">
                             <div className="flex-1">

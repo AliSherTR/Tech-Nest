@@ -50,6 +50,7 @@ export default function AddProductsPage() {
         formDataToSend.append("price", formData.price);
         formDataToSend.append("description", formData.description);
         formDataToSend.append("brand", formData.brand);
+        formDataToSend.append("discountPrice", formData.discountPrice);
         formDataToSend.append("quantity", formData.quantity);
         formDataToSend.append("category", formData.category);
         formDataToSend.append("file", formData.image); // 'file' should match the multer field name
