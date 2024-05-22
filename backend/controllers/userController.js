@@ -23,7 +23,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     if (userExists) {
         const error = new Error("User Already Exists");
         error.statusCode = 409;
-        throw error;
+        next(new Error(error));
     }
 
     const salt = await bcrypt.genSalt(10);

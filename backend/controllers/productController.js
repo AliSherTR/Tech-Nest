@@ -1,19 +1,34 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
+const createError = require("http-errors");
 
-exports.getAllProducts = asyncHandler(async (req, res) => {
+exports.restrictTo = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return next(
+                createError(
+                    403,
+                    "You do not have the permission to perform this action"
+                )
+            );
+        }
+
+        next();
+    };
+};
+
+exports.getAllProducts = asyncHandler(async (req, res, next) => {
     const products = await Product.find();
     if (!products) {
-        const error = new Error("No Products Found");
-        error.statusCode = 404;
-        throw error;
+        return next(createError(404, "No Products Found"));
     }
     res.status(200).json({
-        products,
+        status: "success",
+        data: products,
     });
 });
 
-exports.addNewProduct = asyncHandler(async (req, res) => {
+exports.addNewProduct = asyncHandler(async (req, res, next) => {
     const {
         name,
         price,
@@ -23,12 +38,13 @@ exports.addNewProduct = asyncHandler(async (req, res) => {
         category,
         userId,
         userName,
+        discountPrice,
     } = req.body;
     let image;
     if (req.file) {
         image = req.file.path.replace(/\\/g, "/"); // Replace all backslashes with forward slashes
     } else {
-        return res.status(400).json({ error: "Image file is required." });
+        return next(createError(400, "Please add image file"));
     }
 
     if (
@@ -41,9 +57,9 @@ exports.addNewProduct = asyncHandler(async (req, res) => {
         !userName ||
         !userId
     ) {
-        const error = new Error("One or more required fields are missing.");
-        error.code = 400;
-        throw error;
+        return next(
+            createError(400, "One or more required fields are missing")
+        );
     }
     const newProduct = await Product.create({
         name,
@@ -53,6 +69,7 @@ exports.addNewProduct = asyncHandler(async (req, res) => {
         image,
         quantity,
         category,
+        discountPrice,
         "owner.userId": userId,
         "owner.name": userName,
     });
@@ -68,26 +85,22 @@ exports.addNewProduct = asyncHandler(async (req, res) => {
     });
 });
 
-exports.deleteProduct = asyncHandler(async (req, res) => {
+exports.deleteProduct = asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findByIdAndDelete(id);
     if (!product) {
-        const error = new Error("No Product Found");
-        error.code = 404;
-        throw error;
+        return next(createError(404, "No Product Found"));
     }
     res.status(200).json({
         status: "success",
     });
 });
 
-exports.getProduct = asyncHandler(async (req, res) => {
+exports.getProduct = asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id);
     if (!product) {
-        const error = new Error("No Product Found");
-        error.code = 404;
-        throw error;
+        return next(createError(404, "No Product found!!"));
     }
     res.status(200).json({
         status: "success",
@@ -95,11 +108,12 @@ exports.getProduct = asyncHandler(async (req, res) => {
     });
 });
 
-exports.updateProduct = asyncHandler(async (req, res) => {
+exports.updateProduct = asyncHandler(async (req, res, next) => {
     const {
         name,
         price,
         description,
+        discountPrice,
         brand,
         quantity,
         category,
@@ -111,7 +125,9 @@ exports.updateProduct = asyncHandler(async (req, res) => {
     if (req.file) {
         image = req.file.path.replace(/\\/g, "/");
     } else {
-        return res.status(400).json({ error: "Image file is required." });
+        const error = new Error("One or more required fields are missing.");
+        error.code = 400;
+        return next(new Error(error));
     }
 
     if (
@@ -125,7 +141,7 @@ exports.updateProduct = asyncHandler(async (req, res) => {
     ) {
         const error = new Error("One or more required fields are missing.");
         error.code = 400;
-        throw error;
+        return next(new Error(error));
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -138,6 +154,7 @@ exports.updateProduct = asyncHandler(async (req, res) => {
             quantity,
             category,
             image,
+            discountPrice,
             "owner.userId": userId,
             "owner.name": userName,
         },
@@ -145,8 +162,10 @@ exports.updateProduct = asyncHandler(async (req, res) => {
     );
 
     if (!updatedProduct) {
-        return res.status(404).json({ error: "Product not found." });
+        const error = new Error("Product not found");
+        error.code = 400;
+        return next(new Error(error));
     }
 
-    res.json(updatedProduct);
+    res.status(200).json(updatedProduct);
 });
