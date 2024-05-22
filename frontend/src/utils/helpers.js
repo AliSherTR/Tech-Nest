@@ -20,8 +20,8 @@ export const getAllUsers = async () => {
 
 export async function getAllProducts() {
     try {
-        const res = await axios.get(`${BASE_URL}/products`);
-        return res.data.products;
+        const res = await axios.get(`http://localhost:8000/api/products`);
+        return res.data.data;
     } catch (error) {
         toast.error("Error getting products");
     }
