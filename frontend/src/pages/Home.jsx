@@ -13,6 +13,8 @@ import { useContext } from "react";
 import { CartContext } from "../context/cartContext";
 import HomeShippping from "../ui/HomeShipping";
 import SalesProduct from "../ui/SalesProduct";
+import LoadingIndicator from "../ui/LoadingIndicator";
+import { Link } from "react-router-dom";
 
 export default function Home() {
     const { addItemToCart } = useContext(CartContext);
@@ -55,7 +57,10 @@ export default function Home() {
         queryKey: ["products"],
         queryFn: getAllProducts,
     });
-    console.log(products);
+
+    const displayItems = Array.from(products?.slice(0, 10));
+
+    if (isLoading) return <LoadingIndicator />;
 
     return (
         <>
@@ -98,8 +103,7 @@ export default function Home() {
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {isLoading && <p>Loading........</p>}
-                    {products?.map(
+                    {displayItems?.map(
                         (product) =>
                             product.discountPrice === 0 && (
                                 <ProductCard
@@ -121,6 +125,15 @@ export default function Home() {
                                 />
                             )
                     )}
+                </div>
+
+                <div className="flex justify-center mb-6">
+                    <Link
+                        to="/product"
+                        className=" mt-4 bg-teal-500 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded"
+                    >
+                        Show More &rarr;
+                    </Link>
                 </div>
             </div>
             <div className="relative my-5">

@@ -3,6 +3,8 @@ import toast from "react-hot-toast";
 
 export const BASE_URL = "http://localhost:8000/api";
 
+const TOKEN = localStorage.getItem("token");
+
 export const logoutUser = () => {
     localStorage.removeItem("token");
     window.location.reload();
@@ -10,11 +12,17 @@ export const logoutUser = () => {
 
 export const getAllUsers = async () => {
     try {
-        const res = await axios.get(`${BASE_URL}/users/`);
-        const { users } = res.data;
-        return users;
+        const res = await axios.get(`${BASE_URL}/users/`, {
+            headers: {
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        });
+        if (res.statusText == "OK") {
+            const { users } = res.data;
+            return users;
+        }
     } catch (error) {
-        toast.error("Error getting the users");
+        toast.error("Cannot get the users. Try logging in again");
     }
 };
 

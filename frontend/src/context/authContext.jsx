@@ -43,8 +43,16 @@ export const AuthProvider = ({ children }) => {
         const decoded = jwtDecode(token);
         try {
             const data = await axios.get(
-                `http://localhost:8000/api/users/${decoded.id}`
+                `http://localhost:8000/api/users/${decoded.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
+            if (data.statusText != "Not Found") {
+                <Navigate to={"/authentication/signin"} replace />;
+            }
             dispatch({ type: "SETUSER", payload: data.data });
         } catch (error) {
             <Navigate to={"/authentication/signin"} replace />;
