@@ -1,19 +1,18 @@
-const User = require("./../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const createError = require("http-errors");
 const asyncHandler = require("express-async-handler");
+const User = require("./../models/userModel");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
     const users = await User.find().select("username email image role");
-
     if (users.length > 0) {
         res.status(200).json({
+            status: "success",
             users,
         });
     } else {
-        const error = new Error("No Users Found");
-        error.statusCode = 404;
-        throw error;
+        return next(createError(404, "No users found"));
     }
 });
 
@@ -21,9 +20,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     const { email, username, password } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
-        const error = new Error("User Already Exists");
-        error.statusCode = 409;
-        next(new Error(error));
+        return next(createError(409, "User alredy exists"));
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -39,15 +36,12 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     res.status(200).json({ username, email });
 });
 
-exports.loginUser = asyncHandler(async (req, res) => {
+exports.loginUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-        const error = new Error("No User Found");
-        error.statusCode = 404;
-        throw error;
+        return next(createError(404, "No users found"));
     }
-
     const comparePassword = await bcrypt.compare(password, user.password);
     if (comparePassword) {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -62,11 +56,9 @@ exports.loginUser = asyncHandler(async (req, res) => {
         });
 
         return;
+    } else {
+        return next(createError(403, "Incorrect Email or password"));
     }
-
-    const error = new Error("Incorrect Email or password");
-    error.statusCode = 404;
-    throw error;
 });
 
 exports.googleLogin = asyncHandler(async (req, res, next) => {
@@ -100,8 +92,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     const user = await User.findById(id);
 
     if (!user) {
-        next(new ErrorController("No User Found!!", 404));
-        return;
+        return next(createError(404, "No users found"));
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -110,7 +101,6 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
         status: "success",
-
         username: user.username,
         email: user.email,
         role: user.role,
