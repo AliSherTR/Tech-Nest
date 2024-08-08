@@ -1,25 +1,39 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/authContext";
+import { QueryClient, QueryClientProvider } from "react-query";
 import Welcome from "./pages/Welcome";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import AuthenticationLayout from "./ui/AuthenticationLayout";
 import SignIn from "./pages/SignIn";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { AuthProvider } from "./context/authContext";
+// import { ReactQueryDevtools } from "react-query/devtools";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import GoogleSignin from "./ui/GoogleSignin";
 import AdminLayout from "./ui/AdminLayout";
-import Dashboard from "./pages/admin/Dashboard";
-import Users from "./pages/admin/Users";
-import Products from "./pages/admin/Products";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AddProductsPage from "./pages/admin/AddProductsPage";
+import SellerDashboard from "./pages/Seller/Dashboard";
+import AdminUsers from "./pages/admin/Users";
+import AdminProducts from "./pages/admin/Products";
+import SellerLayout from "./ui/SellerLayout";
+import SellerProducts from "./pages/Seller/Products";
+import DeleteProductsPage from "./pages/admin/DeleteProductsPage";
+import UpdateProductsPage from "./pages/admin/UpdateProductsPage";
+import ProductPage from "./pages/ProductPage";
+import Checkout from "./pages/Checkout";
+import ShippingForm from "./pages/ShippingForm";
+import CartPage from "./pages/CartPage";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import CollectionPage from "./pages/Collections";
+import Aboutus from "./pages/AboutUs";
+import Contactus from "./pages/ContactUs";
+import Faqs from "./pages/Faqs";
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             staleTime: 60 * 1000,
-            // staleTime: 0,
         },
     },
 });
@@ -28,33 +42,81 @@ export default function App() {
     return (
         <AuthProvider>
             <QueryClientProvider client={queryClient}>
-                <ReactQueryDevtools initialIsOpen={false} />
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
                 <BrowserRouter>
                     <Routes>
-                        <Route
-                            path="/"
-                            element={
-                                <ProtectedRoute>
-                                    <Home />
-                                </ProtectedRoute>
-                            }
-                        />
+                        <Route path="/" element={<Home />} />
                         <Route path="/welcome" element={<Welcome />} />
+                        <Route path="/about-us" element={<Aboutus />} />
+                        <Route path="/contact-us" element={<Contactus />} />
+                        <Route path="/faqs" element={<Faqs />} />
+                        <Route path="/product/:id" element={<ProductPage />} />
+                        <Route path="/product" element={<CollectionPage />} />
+                        <Route
+                            path="/collection/:cat"
+                            element={<CollectionPage />}
+                        />
+                        <Route path="/cart" element={<CartPage />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/shipping" element={<ShippingForm />} />
+                        <Route path="/success" element={<PaymentSuccess />} />
+
+                        {/* AUTH ROUTES  */}
                         <Route
                             path="/authentication"
                             element={<AuthenticationLayout />}
                         >
-                            <Route path="signin" element={<SignIn />} />
+                            <Route index element={<SignIn />} />
                             <Route path="signup" element={<SignUp />} />
                             <Route
                                 path="google-sigin"
                                 element={<GoogleSignin />}
                             />
                         </Route>
-                        <Route path="/admin" element={<AdminLayout />}>
-                            <Route path="dashboard" element={<Dashboard />} />
-                            <Route path="users" element={<Users />} />
-                            <Route path="products" element={<Products />} />
+
+                        {/* ADMIN ROUTES */}
+                        <Route
+                            path="/admin"
+                            element={
+                                <ProtectedRoute>
+                                    <AdminLayout />
+                                </ProtectedRoute>
+                            }
+                        >
+                            <Route index element={<AdminDashboard />} />
+                            <Route path="users" element={<AdminUsers />} />
+                            <Route
+                                path="products/add"
+                                element={<AddProductsPage />}
+                            />
+                            <Route
+                                path="products/delete"
+                                element={<DeleteProductsPage />}
+                            />
+                            <Route
+                                path="products/update/:id"
+                                element={<UpdateProductsPage />}
+                            />
+                            <Route
+                                path="products/"
+                                element={<AdminProducts />}
+                            />
+                        </Route>
+                        {/* SELLER ROUTES  */}
+                        <Route
+                            path="/seller"
+                            element={
+                                <ProtectedRoute>
+                                    <SellerLayout />
+                                </ProtectedRoute>
+                            }
+                        >
+                            <Route index element={<SellerDashboard />} />
+
+                            <Route
+                                path="products"
+                                element={<SellerProducts />}
+                            />
                         </Route>
                     </Routes>
                     <Toaster

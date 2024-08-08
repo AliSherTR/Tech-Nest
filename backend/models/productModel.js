@@ -18,19 +18,29 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         required: [true, "A product must have a price"],
     },
-    specifications: {
-        processor: String,
-        RAM: String,
-        storage: String,
-        screenSize: String,
+    category: {
+        type: String,
+        required: [true, "A product must have a category"],
     },
-    images: {
-        type: [String],
+    discountPrice: {
+        type: Number,
+        default: 0,
+    },
+    image: {
+        type: String,
         required: [true, "A product must have an image"],
     },
     stock: {
         type: Number,
         default: 0,
+    },
+    quantity: {
+        type: Number,
+        default: 0,
+    },
+    owner: {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        name: { type: String, required: true },
     },
     ratings: [
         {

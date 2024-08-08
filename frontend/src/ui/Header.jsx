@@ -1,26 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { useAuth } from "../context/authContext";
+import Dropdown from "./Dropdown";
+import { useContext } from "react";
+import { CartContext } from "../context/cartContext";
+
 const Header = () => {
+    const { state } = useAuth();
+    const { cartItems } = useContext(CartContext);
     return (
         <>
-            <header className="container mx-auto px-4 py-2 flex items-center justify-between bg-gray-900 text-white ">
+            <header className=" mx-auto px-4 py-2 flex justify-between  bg-gray-900 text-white sticky w-full top-0 z-[100] ">
                 <Link to="/" className="font-boldk text-xl text-teal-500">
                     <img src={logo} alt="Tech Nest" className=" w-12 h-12" />
                 </Link>
-                <nav>
-                    <ul className="flex items-center justify-center font-semibold">
-                        <li className="relative group px-3 py-2">
-                            <a
-                                href="#"
-                                className="text-teal-400 hover:opacity-50 cursor-pointer"
+                <nav className=" basis-[40%]">
+                    <ul className="flex font-semibold mx-auto  h-full">
+                        <li className="relative group flex-1 flex  ">
+                            <NavLink
+                                to="/"
+                                className=" hover:opacity-50 cursor-pointer flex-1 flex items-center justify-center"
                             >
                                 Home
-                            </a>
+                            </NavLink>
                         </li>
-                        <li className="relative group px-3 py-2">
-                            <button className="hover:opacity-50 cursor-pointer">
+                        <li className="relative group flex-1 flex ">
+                            <NavLink
+                                to="/product"
+                                className="hover:opacity-50 cursor-pointer flex-1 flex items-center justify-center"
+                            >
                                 Products
-                            </button>
+                            </NavLink>
                             <div className="absolute top-0 -left-48 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[560px] transform">
                                 <div className="relative top-6 p-6 bg-white rounded-xl shadow-xl w-full">
                                     <div className="w-10 h-10 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[12rem] duration-500 ease-in-out rounded-sm"></div>
@@ -33,44 +43,37 @@ const Header = () => {
                                                 </p>
                                                 <ul className="mt-3 text-[15px]">
                                                     <li>
-                                                        <a
+                                                        <NavLink
+                                                            to="/product/65fc0e663d1a411bc1b150a3"
                                                             href="#"
                                                             className="block p-2 -mx-2 rounded-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-pink-50 hover:via-blue-50 transition ease-in-out duration-300 text-gray-800 font-semibold hover:text-teal-500"
                                                         >
                                                             Apple iPhone 15 Pro
                                                             Max...
-                                                        </a>
+                                                        </NavLink>
                                                     </li>
                                                     <li>
-                                                        <a
+                                                        <NavLink
+                                                            to="/product/65fc0fb53d1a411bc1b150b4"
                                                             href="#"
                                                             className="block p-2 -mx-2 rounded-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-pink-50 hover:via-blue-50 transition ease-in-out duration-300 text-gray-800 font-semibold hover:text-teal-500"
                                                         >
                                                             HP 250 G9 Core i5
                                                             12th Generation 8GB
                                                             RAM...
-                                                        </a>
+                                                        </NavLink>
                                                     </li>
+
                                                     <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block p-2 -mx-2 rounded-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-pink-50 hover:via-blue-50 transition ease-in-out duration-300 text-gray-800 font-semibold hover:text-teal-500"
-                                                        >
-                                                            HP Pavilion 15
-                                                            EG3148NIA Core i5
-                                                            13th Generation 8GB
-                                                            RAM 512GB...
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
+                                                        <NavLink
+                                                            to="/product/65fc0e663d1a411bc1b150a3"
                                                             href="#"
                                                             className="block p-2 -mx-2 rounded-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-pink-50 hover:via-blue-50 transition ease-in-out duration-300 text-gray-800 font-semibold hover:text-teal-500"
                                                         >
                                                             Apple iPhone 15 Pro
                                                             Max 256GB Storage
                                                             Esim PTA...
-                                                        </a>
+                                                        </NavLink>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -80,44 +83,35 @@ const Header = () => {
                                                 </p>
                                                 <ul className="mt-3 text-[15px]">
                                                     <li>
-                                                        <a
-                                                            href="#"
+                                                        <NavLink
+                                                            to="/product/65fc11313d1a411bc1b150bd"
                                                             className="block p-2 -mx-2 rounded-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-pink-50 hover:via-blue-50 transition ease-in-out duration-300 text-gray-800 font-semibold hover:text-teal-500"
                                                         >
                                                             Apple iPad Pro 12.9
                                                             M2 Chip 16GB RAM 1TB
                                                             Storage WIFI+5G
                                                             NON...
-                                                        </a>
+                                                        </NavLink>
                                                     </li>
                                                     <li>
-                                                        <a
-                                                            href="#"
+                                                        <NavLink
+                                                            to="/product/65f5e3e6e8b1fdfe2e41d9d8"
                                                             className="block p-2 -mx-2 rounded-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-pink-50 hover:via-blue-50 transition ease-in-out duration-300 text-gray-800 font-semibold hover:text-teal-500"
                                                         >
                                                             Apple iPad Pro 11 M2
                                                             Chip...
-                                                        </a>
+                                                        </NavLink>
                                                     </li>
+
                                                     <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block p-2 -mx-2 rounded-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-pink-50 hover:via-blue-50 transition ease-in-out duration-300 text-gray-800 font-semibold hover:teal-500"
-                                                        >
-                                                            Apple iPad 10th
-                                                            Generation 256GB
-                                                            Wifi...
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
+                                                        <NavLink
+                                                            to="/product/65fc121a3d1a411bc1b150c7"
                                                             className="block p-2 -mx-2 rounded-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-pink-50 hover:via-blue-50 transition ease-in-out duration-300 text-gray-800 font-semibold hover:text-teal-500"
                                                         >
                                                             Huawei MatePad T 10s
                                                             4GB RAM 64GB Storage
                                                             Cellular SIM...
-                                                        </a>
+                                                        </NavLink>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -158,8 +152,8 @@ const Header = () => {
                                 </div>
                             </div>
                         </li>
-                        <li className="relative group px-3 py-2">
-                            <button className="hover:opacity-50 cursor-pointer">
+                        <li className="relative group flex-1 flex ">
+                            <button className="hover:opacity-50 cursor-pointer flex-1 flex items-center">
                                 Catagories
                             </button>
                             <div className="absolute top-0 -left-2 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[260px] transform">
@@ -171,28 +165,44 @@ const Header = () => {
                                         </p>
                                         <ul className="mt-3 text-[15px]">
                                             <li>
-                                                <a
-                                                    href="#"
+                                                <NavLink
+                                                    to="/collection/mobile"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Mobile
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="#"
+                                                <NavLink
+                                                    to="/collection/laptop"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
                                                     Laptop
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="#"
+                                                <NavLink
+                                                    to="/collection/tablet"
                                                     className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
                                                 >
-                                                    Ipad
-                                                </a>
+                                                    Tablets
+                                                </NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink
+                                                    to="/collection/audio"
+                                                    className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
+                                                >
+                                                    Audio
+                                                </NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink
+                                                    to="/collection/others"
+                                                    className="bg-transparent bg-clip-text text-transparent bg-gradient-to-br from-indigo-400 to-pink-700 via-black font-semibold hover:from-teal-400 hover:to-teal-700 hover:via-teal-500 py-1 block"
+                                                >
+                                                    Accessories
+                                                </NavLink>
                                             </li>
                                         </ul>
                                     </div>
@@ -200,70 +210,42 @@ const Header = () => {
                             </div>
                         </li>
 
-                        <li className="relative group px-3 py-2">
-                            <a
-                                href="#"
-                                className="hover:text-teal-500 cursor-pointer  "
+                        <li className="relative group flex-1 flex">
+                            <NavLink
+                                to="/contact-us"
+                                className="hover:text-teal-500 cursor-pointer flex-1 flex items-center justify-center "
                             >
                                 Contact Us
-                            </a>
+                            </NavLink>
                         </li>
-                        <li className="relative group px-3 py-2">
-                            <a
-                                href="#"
-                                className=" hover:hover:text-teal-500 cursor-pointer"
+                        <li className="relative group flex-1 flex">
+                            <NavLink
+                                to="/about-us"
+                                className=" hover:hover:text-teal-500 cursor-pointer flex-1 flex items-center justify-center"
                             >
                                 About Us
-                            </a>
+                            </NavLink>
                         </li>
-                        <li className="relative group px-3 py-2">
-                            <button className="hover:opacity-50 cursor-default">
+                        <li className="relative group flex-1 flex ">
+                            <NavLink
+                                to="/faqs"
+                                className="hover:opacity-50 cursor-default flex-1 flex items-center justify-center"
+                            >
                                 Help
-                            </button>
+                            </NavLink>
                             <div className="absolute top-0 -left-2 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[200px] transform">
                                 <div className="relative top-6 p-6 bg-white rounded-xl shadow-xl w-full">
                                     <div className="w-10 h-10 bg-white transform rotate-45 absolute top-0 z-0 -translate-x-4 transition-transform group-hover:translate-x-3 duration-500 ease-in-out rounded-sm"></div>
                                     <div className="relative z-10">
                                         <ul className="text-[15px]">
                                             <li>
-                                                <a
-                                                    href="#"
-                                                    className="text-gray-600 hover:text-gray-800 py-1 block font-normal"
-                                                >
-                                                    Get Support
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    href="#"
-                                                    className="text-gray-600 hover:text-gray-800 py-1 block font-normal"
-                                                >
-                                                    Blog
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
+                                                <NavLink
+                                                    to="/faqs"
                                                     href="#"
                                                     className="text-gray-600 hover:text-gray-800 py-1 block font-normal"
                                                 >
                                                     FAQs
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    href="#"
-                                                    className="text-gray-600 hover:text-gray-800 py-1 block font-normal"
-                                                >
-                                                    Guides
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    href="#"
-                                                    className="text-gray-600 hover:text-gray-800 py-1 block font-normal"
-                                                >
-                                                    News &amp; Events
-                                                </a>
+                                                </NavLink>
                                             </li>
                                         </ul>
                                     </div>
@@ -274,36 +256,54 @@ const Header = () => {
                 </nav>
                 <nav>
                     <ul>
-                        <div className="flex p-4 justify-center mr-5 ">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="w-12 h-7 stroke-Black-50 peer-focus: hover:text-teal-500 cursor-pointer "
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-                                />
-                            </svg>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="w-12 h-7 stroke-Black peer-focus: hover:text-teal-500 cursor-pointer"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                                />
-                            </svg>
-                        </div>
+                        {state.user ? (
+                            <div className="flex p-4 justify-center mr-5 ">
+                                <Dropdown />
+                                <div className=" relative">
+                                    <Link to="/cart">
+                                        {" "}
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={1.5}
+                                            stroke="currentColor"
+                                            className="w-6 h-6"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                                            />
+                                        </svg>
+                                    </Link>
+                                    <span className=" absolute left-full top-[-5px] px-2 py-2 bg-emerald-400 flex items-center justify-center rounded-full text-xs right-0 bottom-3">
+                                        {!cartItems.length
+                                            ? "0"
+                                            : cartItems.length}
+                                    </span>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className=" flex items-center justify-between gap-5 me-4">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-6 h-6"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                                    />
+                                </svg>
+
+                                <Link to="/authentication">Login</Link>
+                            </div>
+                        )}
                     </ul>
                 </nav>
             </header>
